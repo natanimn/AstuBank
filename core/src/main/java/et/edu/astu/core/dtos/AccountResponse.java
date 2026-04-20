@@ -10,9 +10,9 @@ import et.edu.astu.core.models.Account;
  * @param lastName grandfather name
  * @author Natanim
  */
-public record AccountResponseDTO(Long accountNumber, String firstName, String middleName, String lastName) {
-    public static AccountResponseDTO map(Account account){
-        return new AccountResponseDTO(
+public record AccountResponse(Long accountNumber, String firstName, String middleName, String lastName) {
+    public static AccountResponse map(Account account){
+        return new AccountResponse(
                 account.getAccountNumber(),
                 account.getFirstName(),
                 account.getMiddleName(),
