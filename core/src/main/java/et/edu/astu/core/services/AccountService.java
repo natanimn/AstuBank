@@ -1,7 +1,7 @@
 package et.edu.astu.core.services;
 
-import et.edu.astu.core.dtos.AccountResponseDTO;
-import et.edu.astu.core.dtos.CreateAccountRequestDTO;
+import et.edu.astu.core.dtos.AccountResponse;
+import et.edu.astu.core.dtos.CreateAccountRequest;
 import et.edu.astu.core.generators.AccountGenerator;
 import et.edu.astu.core.models.Account;
 import et.edu.astu.core.repositories.AccountRepository;
@@ -16,7 +16,7 @@ public class AccountService {
     private final AccountGenerator generator;
 
     @Transactional
-    public AccountResponseDTO create(CreateAccountRequestDTO dto){
+    public AccountResponse create(CreateAccountRequest dto){
         long accountNumber = generator.generate(dto);
         Account account = new Account(
                 accountNumber,
@@ -28,11 +28,29 @@ public class AccountService {
         );
 
         Account saved = repository.save(account);
-        return AccountResponseDTO.map(saved);
+        return AccountResponse.map(saved);
     }
 
+    public AccountResponse searchByPhone(String phone){
+        Account account = repository.findByPhoneNumber(phone)
+                .orElseThrow(() -> new RuntimeException("Account not found"));
+        return AccountResponse.map(account);
+    }
+
+    @Transactional
+    public void linkWithTelegram(Long accountNumber, Long userId){
+        Account account = repository.findByAccountNumber(accountNumber)
+                .filter(a -> !a.linkedWithTelegram())
+                .orElseThrow(() -> new RuntimeException("Account not found"));
+
+        account.setTelegramUserId(userId);
+        account.setLinkVerified(false);
+    }
+
+
+
     public boolean linkedWithTelegramId(long accountNumber, long telegramUserId){
-        Account account = repository.findById(accountNumber).orElseThrow();
+        Account account = repository.findByAccountNumber(accountNumber).orElseThrow();
         return account.linkedWithTelegram() && account.getTelegramUserId().equals(telegramUserId);
     }
 }
