@@ -1,6 +1,6 @@
 package et.edu.astu.core.generators;
 
-import et.edu.astu.core.dtos.CreateAccountRequestDTO;
+import et.edu.astu.core.dtos.CreateAccountRequest;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
@@ -15,7 +15,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class AccountGenerator {
     private final AtomicInteger atomicInteger = new AtomicInteger(1);
 
-    public Long generate(CreateAccountRequestDTO dto){
+    public Long generate(CreateAccountRequest dto){
         int seq = atomicInteger.getAndIncrement();
         long now = Instant.now().getEpochSecond() / 1_000_000;
         long birth = dto.birthDate().toEpochSecond(ZoneOffset.UTC) / 1_000_000;
