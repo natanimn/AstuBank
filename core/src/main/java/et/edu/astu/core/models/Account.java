@@ -1,8 +1,10 @@
 package et.edu.astu.core.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,6 +22,10 @@ import java.time.LocalDateTime;
                 @Index(
                         name = "telegram_user_id_account_index",
                         columnList = "linked_telegram_user_id"
+                ),
+                @Index(
+                        name = "account_number_account_index",
+                        columnList = "account_number"
                 )
         }
 )
@@ -28,7 +34,11 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Account {
     @Id
-    @Column(name = "account_number")
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @JsonIgnore
+    private String id;
+
+    @Column(name = "account_number", unique = true)
     private Long accountNumber;
 
     @Column(name = "first_name", nullable = false)
@@ -40,15 +50,26 @@ public class Account {
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
+    @Column(nullable = false)
+    @Size(min = 9)
+    private String phone;
+
     @Column(name = "birth_date")
     private LocalDateTime birthDate;
 
     @Min(0)
     private Integer balance;
 
-    @Column(name = "linked_telegram_user_id")
+    @Column(name = "linked_telegram_user_id", unique = true)
     private Long telegramUserId;
-    
+
+    @Column(name = "telegram_link_verified")
+    @JsonIgnore
+    private Boolean linkVerified;
+
+    @Column(name = "phone_search")
+    private Boolean phoneSearch;
+
     @Column(name = "created_at", nullable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDateTime createdAt;
@@ -65,6 +86,7 @@ public class Account {
     @PrePersist
     private void onCreate(){
         this.createdAt = LocalDateTime.now();
+        this.phoneSearch = false;
     }
 
     public boolean linkedWithTelegram(){
