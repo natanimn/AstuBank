@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
  * @param birthDate birthdate
  * @author Natanim
  */
-public record CreateAccountRequestDTO(
+public record CreateAccountRequest(
         String firstName,
         String middleName,
         String lastName,
