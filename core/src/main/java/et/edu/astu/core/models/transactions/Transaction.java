@@ -9,13 +9,23 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "transactions")
+@Table(
+        name = "transactions",
+        indexes = @Index(
+                name = "transaction_id_trx_index",
+                columnList = "transaction_id"
+        )
+)
 @Data
 @DiscriminatorColumn(name = "transaction_type")
 @NoArgsConstructor
 public class Transaction {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
+
+    @Column(name = "transaction_id", unique = true, nullable = false)
+    private String transactionId;
 
     @Column(nullable = false)
     @Min(5)
