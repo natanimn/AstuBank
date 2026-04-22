@@ -3,6 +3,7 @@ package et.edu.astu.core.services;
 import et.edu.astu.core.dtos.AccountResponse;
 import et.edu.astu.core.dtos.CreateAccountRequest;
 import et.edu.astu.core.generators.AccountGenerator;
+import et.edu.astu.core.interfaces.CustomerResponse;
 import et.edu.astu.core.models.Account;
 import et.edu.astu.core.repositories.AccountRepository;
 import jakarta.transaction.Transactional;
@@ -15,14 +16,30 @@ public class AccountService {
     private final AccountRepository repository;
     private final AccountGenerator generator;
 
+    private void validate(CreateAccountRequest request){
+        if (request.firstName() == null)
+            throw new RuntimeException("First name cannot be empty nor null");
+        if (request.middleName() == null)
+            throw new RuntimeException("Middle name cannot be empty nor null");
+        if (request.lastName() == null)
+            throw new RuntimeException("Last name cannot be empty nor null");
+        if (request.birthDate() == null)
+            throw new RuntimeException("Birthdate cannot be empty nor null");
+        if (request.initialBalance() == null)
+            throw new RuntimeException("Initial balance cannot be empty nor null");
+        if (request.phone() == null)
+            throw new RuntimeException("Phone number cannot be empty nor null");
+    }
     @Transactional
     public AccountResponse create(CreateAccountRequest dto){
+        validate(dto);
         long accountNumber = generator.generate(dto);
         Account account = new Account(
                 accountNumber,
-                dto.firstName(),
-                dto.middleName(),
-                dto.lastName(),
+                dto.firstName().toUpperCase(),
+                dto.middleName().toUpperCase(),
+                dto.lastName().toUpperCase(),
+                dto.phone(),
                 dto.birthDate(),
                 dto.initialBalance()
         );
@@ -35,6 +52,10 @@ public class AccountService {
         Account account = repository.findByPhoneNumber(phone)
                 .orElseThrow(() -> new RuntimeException("Account not found"));
         return AccountResponse.map(account);
+    }
+
+    public CustomerResponse findCustomer(Long accountNumber){
+        return repository.findAccount(accountNumber);
     }
 
     @Transactional
