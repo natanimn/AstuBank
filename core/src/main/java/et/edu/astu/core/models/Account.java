@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -51,7 +51,7 @@ public class Account {
     private String lastName;
 
     @Column(nullable = false)
-    @Size(min = 9)
+    @Pattern(regexp = "(251[97])\\d{8}", message = "Invalid phone number format. Only 2519... or 2517... format is allowed")
     private String phone;
 
     @Column(name = "birth_date")
@@ -74,11 +74,12 @@ public class Account {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDateTime createdAt;
 
-    public Account(Long accountNumber, String firstName, String middleName, String lastName, LocalDateTime birthDate, Integer balance) {
+    public Account(Long accountNumber, String firstName, String middleName, String lastName, String phone, LocalDateTime birthDate, Integer balance) {
         this.accountNumber = accountNumber;
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
+        this.phone = phone;
         this.birthDate = birthDate;
         this.balance = balance;
     }
