@@ -1,0 +1,64 @@
+package et.edu.astu.core.services;
+
+import et.edu.astu.core.dtos.LoginResponse;
+import et.edu.astu.core.dtos.UserLoginOTPRequest;
+import et.edu.astu.core.dtos.UserResponse;
+import et.edu.astu.core.models.CustomUserDetails;
+import et.edu.astu.core.models.User;
+import et.edu.astu.core.repositories.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class UserService {
+    private UserRepository repository;
+    private OTPService otpService;
+    private JwtService jwtService;
+    private AccountService accountService;
+
+    public User findById(Long userId){
+        return repository.findById(userId).orElseThrow();
+    }
+
+    public void insert(Long userId){
+        if (repository.existsByUserId(userId)) return;
+
+        User user = new User(userId);
+        repository.save(user);
+    }
+
+    public UserResponse getMe(Long userId){
+        User user = repository.findByUserId(userId).orElseThrow();
+        return new UserResponse(user.getAccount() == null);
+    }
+
+    public User getUser(Long userId){
+        return repository.findByUserId(userId).orElse(null);
+    }
+
+    public CustomUserDetails getCustomUser(Long userId){
+        return new CustomUserDetails(repository.findByUserId(userId).orElseThrow());
+    }
+
+    public LoginResponse login(UserLoginOTPRequest request){
+        if (request.accountNumber() == null)
+            throw new RuntimeException("Account number required");
+        if (request.code() == null)
+            throw new RuntimeException("OTP required");
+        if (request.userId() == null)
+            throw new RuntimeException("User id required");
+
+        if (otpService.validate(request)){
+            accountService.linkWithTelegram(request.accountNumber(), request.userId());
+            return new LoginResponse(
+                    jwtService.generateUserJwt(
+                            request.accountNumber(),
+                            request.userId()
+                    )
+            );
+        }
+        throw new RuntimeException("Invalid credentials");
+
+    }
+}
