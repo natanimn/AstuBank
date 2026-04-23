@@ -1,9 +1,9 @@
 package et.edu.astu.core.services;
 
 import et.edu.astu.core.dtos.OTPResponse;
-import et.edu.astu.core.dtos.UserLoginOTPValidationRequest;
+import et.edu.astu.core.dtos.UserLoginOTPRequest;
 import et.edu.astu.core.generators.OTPGenerator;
-import et.edu.astu.core.models.otp.OTP;
+import et.edu.astu.core.models.OTP;
 import et.edu.astu.core.repositories.OTPRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,7 +25,7 @@ public class OTPService {
         return new OTPResponse(code);
     }
 
-    public boolean validate(UserLoginOTPValidationRequest request){
+    public boolean validate(UserLoginOTPRequest request){
         OTP otp = repository.findOTP(request.accountNumber()).orElseThrow();
         return otp.getCode().equals(request.code());
     }
