@@ -2,10 +2,15 @@ package et.edu.astu.core.services;
 
 import et.edu.astu.core.dtos.DepositRequest;
 import et.edu.astu.core.dtos.DepositResponse;
+import et.edu.astu.core.dtos.TransferRequest;
+import et.edu.astu.core.dtos.TransferResponse;
 import et.edu.astu.core.generators.TransactionGenerator;
+import et.edu.astu.core.interfaces.TransactionResponse;
 import et.edu.astu.core.models.Account;
 import et.edu.astu.core.models.Employee;
 import et.edu.astu.core.models.transactions.Deposit;
+import et.edu.astu.core.models.transactions.Transaction;
+import et.edu.astu.core.models.transactions.Transfer;
 import et.edu.astu.core.models.transactions.Withdraw;
 import et.edu.astu.core.repositories.AccountRepository;
 import et.edu.astu.core.repositories.EmployeeRepository;
@@ -13,6 +18,9 @@ import et.edu.astu.core.repositories.TransactionRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.awt.print.Pageable;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -62,5 +70,54 @@ public class TransactionService {
         botService.notifyWithdraw(account, withdraw);
 
         return DepositResponse.map(withdraw);
+    }
+
+    private void validateTransfer(TransferRequest request){
+        if (request.sender() == null)
+            throw new RuntimeException("Sender field required");
+        if (request.receiver() == null)
+            throw new RuntimeException("Receiver field required");
+        if (request.amount() == null)
+            throw new RuntimeException("Amount field required");
+    }
+
+    @Transactional
+    public TransferResponse transfer(TransferRequest request){
+        validateTransfer(request);
+        Account sender = accountRepository.findByAccountNumber(request.sender()).orElseThrow();
+        Account receiver = accountRepository.findByAccountNumber(request.sender()).orElseThrow();
+
+        if (request.amount() > sender.getBalance())
+            throw new RuntimeException("Insufficient remaining funds");
+
+        Transfer transfer = new Transfer();
+        String transactionId = generator.generateTransactionId(repository.count(), request.amount());
+
+        transfer.setTransactionId(transactionId);
+        transfer.setAmount(request.amount());
+        transfer.setHolder(sender);
+        transfer.setReceiver(receiver);
+
+        sender.setBalance(sender.getBalance() - request.amount());
+        receiver.setBalance(receiver.getBalance() + request.amount());
+
+        botService.notifyTransfer(transfer);
+
+        return TransferResponse.map(transfer);
+    }
+
+    public List<TransactionResponse> findTransaction(Long accountNumber, Pageable pageable){
+        return repository.findTransactions(accountNumber, pageable);
+    }
+
+    public Object findTransaction(String trxId){
+        Transaction transaction = repository.findByTransactionId(trxId).orElseThrow();
+
+        if (transaction instanceof Deposit || transaction instanceof Withdraw)
+            return DepositResponse.map(transaction);
+        if (transaction instanceof Transfer)
+            return TransferResponse.map((Transfer) transaction);
+
+        return transaction;
     }
 }
