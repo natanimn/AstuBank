@@ -1,8 +1,12 @@
 package et.edu.astu.core.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Id;
+import jakarta.persistence.Column;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
@@ -16,29 +20,13 @@ import java.time.LocalDateTime;
  * @author Natanim
  */
 @Entity
-@Table(
-        name = "accounts",
-        indexes = {
-                @Index(
-                        name = "telegram_user_id_account_index",
-                        columnList = "linked_telegram_user_id"
-                ),
-                @Index(
-                        name = "account_number_account_index",
-                        columnList = "account_number"
-                )
-        }
-)
+@Table(name = "accounts")
 @Getter
 @Setter
 @NoArgsConstructor
 public class Account {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @JsonIgnore
-    private String id;
-
-    @Column(name = "account_number", unique = true)
+    @Column(name = "account_number")
     private Long accountNumber;
 
     @Column(name = "first_name", nullable = false)
@@ -60,19 +48,12 @@ public class Account {
     @Min(0)
     private Integer balance;
 
-    @Column(name = "linked_telegram_user_id", unique = true)
-    private Long telegramUserId;
-
-    @Column(name = "telegram_link_verified")
-    @JsonIgnore
-    private Boolean linkVerified;
-
-    @Column(name = "phone_search")
-    private Boolean phoneSearch;
-
     @Column(name = "created_at", nullable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDateTime createdAt;
+
+    @OneToOne(mappedBy = "account")
+    private User user;
 
     public Account(Long accountNumber, String firstName, String middleName, String lastName, String phone, LocalDateTime birthDate, Integer balance) {
         this.accountNumber = accountNumber;
@@ -87,10 +68,9 @@ public class Account {
     @PrePersist
     private void onCreate(){
         this.createdAt = LocalDateTime.now();
-        this.phoneSearch = false;
     }
 
     public boolean linkedWithTelegram(){
-        return telegramUserId != null;
+        return user != null;
     }
 }
