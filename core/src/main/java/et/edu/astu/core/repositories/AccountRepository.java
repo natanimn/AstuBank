@@ -10,11 +10,10 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface AccountRepository extends JpaRepository<Account, String> {
+public interface AccountRepository extends JpaRepository<Account, Long> {
     Optional<Account> findByAccountNumber(Long accountNumber);
 
-    @Query("SELECT a FROM Account a WHERE a.phone = :phone AND a.phone_search = TRUE")
-    Optional<Account> findByPhoneNumber(@Param("phone") String phone);
+    Optional<Account> findByPhone(String phone);
 
     @Query(value =
             "SELECT account_number as accountNumber, first_name as firstName, middle_name as middleName, last_name as lastName, " +
