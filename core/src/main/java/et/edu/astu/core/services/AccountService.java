@@ -5,7 +5,9 @@ import et.edu.astu.core.dtos.CreateAccountRequest;
 import et.edu.astu.core.generators.AccountGenerator;
 import et.edu.astu.core.interfaces.CustomerResponse;
 import et.edu.astu.core.models.Account;
+import et.edu.astu.core.models.User;
 import et.edu.astu.core.repositories.AccountRepository;
+import et.edu.astu.core.repositories.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 public class AccountService {
     private final AccountRepository repository;
     private final AccountGenerator generator;
+    private final UserRepository userRepository;
 
     private void validate(CreateAccountRequest request){
         if (request.firstName() == null)
@@ -49,7 +52,7 @@ public class AccountService {
     }
 
     public AccountResponse searchByPhone(String phone){
-        Account account = repository.findByPhoneNumber(phone)
+        Account account = repository.findByPhone(phone)
                 .orElseThrow(() -> new RuntimeException("Account not found"));
         return AccountResponse.map(account);
     }
@@ -59,19 +62,25 @@ public class AccountService {
     }
 
     @Transactional
-    public void linkWithTelegram(Long accountNumber, Long userId){
+    protected void linkWithTelegram(Long accountNumber, Long userId){
         Account account = repository.findByAccountNumber(accountNumber)
                 .filter(a -> !a.linkedWithTelegram())
-                .orElseThrow(() -> new RuntimeException("Account not found"));
+                .orElseThrow(() -> new RuntimeException("Account not found or already linked with other telegram user"));
+        User user = userRepository.findByUserId(userId)
+                .filter(u -> u.getAccount() == null)
+                .orElseThrow(() -> new RuntimeException("User not found or already linked to another account"));
 
-        account.setTelegramUserId(userId);
-        account.setLinkVerified(false);
+        account.setUser(user);
+        user.setAccount(account);
     }
 
-
-
-    public boolean linkedWithTelegramId(long accountNumber, long telegramUserId){
-        Account account = repository.findByAccountNumber(accountNumber).orElseThrow();
-        return account.linkedWithTelegram() && account.getTelegramUserId().equals(telegramUserId);
+    @Transactional
+    public void unlinkWithTelegram(Long accountNumber){
+        Account account = repository.findByAccountNumber(accountNumber)
+                .filter(Account::linkedWithTelegram)
+                .orElseThrow(() -> new RuntimeException("Account not found or already not linked with telegram user"));
+        account.setUser(null);
+        User user = account.getUser();
+        user.setAccount(null);
     }
 }
