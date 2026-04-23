@@ -1,6 +1,6 @@
 package et.edu.astu.core.repositories;
 
-import et.edu.astu.core.models.otp.OTP;
+import et.edu.astu.core.models.OTP;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
