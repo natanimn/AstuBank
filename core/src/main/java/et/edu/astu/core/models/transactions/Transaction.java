@@ -1,5 +1,6 @@
 package et.edu.astu.core.models.transactions;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import et.edu.astu.core.models.Account;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
@@ -22,6 +23,7 @@ import java.time.LocalDateTime;
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @JsonIgnore
     private Long id;
 
     @Column(name = "transaction_id", unique = true, nullable = false)
@@ -33,6 +35,7 @@ public class Transaction {
 
     @ManyToOne
     @JoinColumn(name = "account_id")
+    @JsonIgnore
     private Account holder;
 
     @Column(name = "created_at")
