@@ -17,12 +17,14 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity security){
         return security.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(http -> http
-                        .requestMatchers("/api/auth/e/login/", "/api/auth/u/login/", "/api/admin/**")
+                        .requestMatchers("/api/auth/e/login/", "/api/auth/u/login/", "/api/auth/admin/")
                         .permitAll()
                         .requestMatchers("/api/e/**")
                         .hasRole("EMPLOYEE")
                         .requestMatchers("/api/u/**")
                         .hasRole("USER")
+                        .requestMatchers("/api/admin/**")
+                        .hasRole("ADMIN")
                         .anyRequest()
                         .authenticated()
                 )
