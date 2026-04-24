@@ -1,8 +1,8 @@
 package et.edu.astu.core.services;
 
-import et.edu.astu.core.dtos.EmployeeLoginRequest;
-import et.edu.astu.core.dtos.LoginResponse;
-import et.edu.astu.core.dtos.UserLoginOTPRequest;
+import et.edu.astu.common.dto.EmployeeLoginRequest;
+import et.edu.astu.common.dto.LoginResponse;
+import et.edu.astu.common.dto.UserLoginOTPRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
