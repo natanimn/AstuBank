@@ -1,4 +1,4 @@
-package et.edu.astu.core.dtos;
+package et.edu.astu.common.dto;
 
 import java.time.LocalDateTime;
 
