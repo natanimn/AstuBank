@@ -1,8 +1,8 @@
 package et.edu.astu.core.services;
 
-import et.edu.astu.core.dtos.LoginResponse;
-import et.edu.astu.core.dtos.UserLoginOTPRequest;
-import et.edu.astu.core.dtos.UserResponse;
+import et.edu.astu.common.dto.LoginResponse;
+import et.edu.astu.common.dto.UserLoginOTPRequest;
+import et.edu.astu.common.dto.UserResponse;
 import et.edu.astu.core.models.CustomUserDetails;
 import et.edu.astu.core.models.User;
 import et.edu.astu.core.repositories.UserRepository;
@@ -59,6 +59,9 @@ public class UserService {
             );
         }
         throw new RuntimeException("Invalid credentials");
+    }
 
+    public boolean exists(Long userId){
+        return repository.existsByUserId(userId);
     }
 }
