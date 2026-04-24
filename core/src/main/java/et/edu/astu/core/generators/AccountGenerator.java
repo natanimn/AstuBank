@@ -1,6 +1,6 @@
 package et.edu.astu.core.generators;
 
-import et.edu.astu.core.dtos.CreateAccountRequest;
+import et.edu.astu.common.dto.CreateAccountRequest;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
