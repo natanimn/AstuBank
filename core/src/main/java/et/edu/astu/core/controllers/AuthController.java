@@ -1,8 +1,8 @@
 package et.edu.astu.core.controllers;
 
-import et.edu.astu.core.dtos.EmployeeLoginRequest;
-import et.edu.astu.core.dtos.LoginResponse;
-import et.edu.astu.core.dtos.UserLoginOTPRequest;
+import et.edu.astu.common.dto.EmployeeLoginRequest;
+import et.edu.astu.common.dto.LoginResponse;
+import et.edu.astu.common.dto.UserLoginOTPRequest;
 import et.edu.astu.core.services.AuthService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
