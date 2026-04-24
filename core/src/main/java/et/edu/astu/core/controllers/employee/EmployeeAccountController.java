@@ -1,12 +1,12 @@
 package et.edu.astu.core.controllers.employee;
 
-import et.edu.astu.core.dtos.AccountResponse;
-import et.edu.astu.core.dtos.CreateAccountRequest;
-import et.edu.astu.core.dtos.DepositRequest;
-import et.edu.astu.core.dtos.DepositResponse;
-import et.edu.astu.core.dtos.OTPResponse;
-import et.edu.astu.core.dtos.TransferRequest;
-import et.edu.astu.core.dtos.TransferResponse;
+import et.edu.astu.common.dto.AccountResponse;
+import et.edu.astu.common.dto.CreateAccountRequest;
+import et.edu.astu.common.dto.DepositRequest;
+import et.edu.astu.common.dto.DepositResponse;
+import et.edu.astu.common.dto.OTPResponse;
+import et.edu.astu.common.dto.TransferRequest;
+import et.edu.astu.common.dto.TransferResponse;
 import et.edu.astu.core.interfaces.CustomerResponse;
 import et.edu.astu.core.interfaces.TransactionResponse;
 import et.edu.astu.core.services.AccountService;
