@@ -1,7 +1,7 @@
 package et.edu.astu.core.services;
 
-import et.edu.astu.core.dtos.OTPResponse;
-import et.edu.astu.core.dtos.UserLoginOTPRequest;
+import et.edu.astu.common.dto.OTPResponse;
+import et.edu.astu.common.dto.UserLoginOTPRequest;
 import et.edu.astu.core.generators.OTPGenerator;
 import et.edu.astu.core.models.OTP;
 import et.edu.astu.core.repositories.OTPRepository;
