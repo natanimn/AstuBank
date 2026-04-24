@@ -35,4 +35,10 @@ public class CustomUserDetails implements UserDetails {
             authorities.add(new SimpleGrantedAuthority("connected"));
         return authorities;
     }
+
+    public Long getAccountNumber(){
+        if (user.getAccount() != null)
+            return user.getAccount().getAccountNumber();
+        return null;
+    }
 }
