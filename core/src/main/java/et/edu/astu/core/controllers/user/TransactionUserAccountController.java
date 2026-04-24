@@ -1,7 +1,7 @@
 package et.edu.astu.core.controllers.user;
 
-import et.edu.astu.core.dtos.TransferRequest;
-import et.edu.astu.core.dtos.TransferResponse;
+import et.edu.astu.common.dto.TransferRequest;
+import et.edu.astu.common.dto.TransferResponse;
 import et.edu.astu.core.services.TransactionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
