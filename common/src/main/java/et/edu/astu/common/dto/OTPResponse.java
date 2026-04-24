@@ -1,3 +1,3 @@
-package et.edu.astu.core.dtos;
+package et.edu.astu.common.dto;
 
 public record OTPResponse(String code) { }
