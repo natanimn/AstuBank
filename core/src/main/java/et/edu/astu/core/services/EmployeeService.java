@@ -1,9 +1,9 @@
 package et.edu.astu.core.services;
 
-import et.edu.astu.core.dtos.CreatedEmployeeResponse;
-import et.edu.astu.core.dtos.EmployeeLoginRequest;
-import et.edu.astu.core.dtos.EmployeeRequest;
-import et.edu.astu.core.dtos.LoginResponse;
+import et.edu.astu.common.dto.CreatedEmployeeResponse;
+import et.edu.astu.common.dto.EmployeeLoginRequest;
+import et.edu.astu.common.dto.EmployeeRequest;
+import et.edu.astu.common.dto.LoginResponse;
 import et.edu.astu.core.generators.EmployeeGenerator;
 import et.edu.astu.core.models.CustomEmployeeDetails;
 import et.edu.astu.core.models.Employee;
