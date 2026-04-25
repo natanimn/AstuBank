@@ -1,4 +1,4 @@
-package et.edu.astu.core.interfaces;
+package et.edu.astu.common.interfaces;
 
 import java.time.LocalDateTime;
 
