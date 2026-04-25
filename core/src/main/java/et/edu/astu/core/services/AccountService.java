@@ -1,9 +1,10 @@
 package et.edu.astu.core.services;
 
-import et.edu.astu.core.dtos.AccountResponse;
-import et.edu.astu.core.dtos.CreateAccountRequest;
+import et.edu.astu.common.dto.AccountResponse;
+import et.edu.astu.common.dto.CreateAccountRequest;
+import et.edu.astu.common.interfaces.CustomerResponse;
+import et.edu.astu.core.mapper.Mapper;
 import et.edu.astu.core.generators.AccountGenerator;
-import et.edu.astu.core.interfaces.CustomerResponse;
 import et.edu.astu.core.models.Account;
 import et.edu.astu.core.models.User;
 import et.edu.astu.core.repositories.AccountRepository;
@@ -48,13 +49,13 @@ public class AccountService {
         );
 
         Account saved = repository.save(account);
-        return AccountResponse.map(saved);
+        return Mapper.map(saved);
     }
 
     public AccountResponse searchByPhone(String phone){
         Account account = repository.findByPhone(phone)
                 .orElseThrow(() -> new RuntimeException("Account not found"));
-        return AccountResponse.map(account);
+        return Mapper.map(account);
     }
 
     public CustomerResponse findCustomer(Long accountNumber){
