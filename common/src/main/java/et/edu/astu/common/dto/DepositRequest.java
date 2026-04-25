@@ -1,3 +1,3 @@
 package et.edu.astu.common.dto;
 
-public record DepositRequest(long accountNumber, int amount) { }
+public record DepositRequest(long accountNumber, double amount) { }
