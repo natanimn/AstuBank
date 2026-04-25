@@ -17,6 +17,6 @@ public record CreateAccountRequest(
         String middleName,
         String lastName,
         String phone,
-        Integer initialBalance,
+        Double initialBalance,
         LocalDateTime birthDate
 ) { }
