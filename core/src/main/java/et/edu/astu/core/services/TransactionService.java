@@ -1,11 +1,12 @@
 package et.edu.astu.core.services;
 
-import et.edu.astu.core.dtos.DepositRequest;
-import et.edu.astu.core.dtos.DepositResponse;
-import et.edu.astu.core.dtos.TransferRequest;
-import et.edu.astu.core.dtos.TransferResponse;
+import et.edu.astu.common.dto.DepositRequest;
+import et.edu.astu.common.dto.DepositResponse;
+import et.edu.astu.common.dto.TransferRequest;
+import et.edu.astu.common.dto.TransferResponse;
+import et.edu.astu.common.interfaces.TransactionResponse;
+import et.edu.astu.core.mapper.Mapper;
 import et.edu.astu.core.generators.TransactionGenerator;
-import et.edu.astu.core.interfaces.TransactionResponse;
 import et.edu.astu.core.models.Account;
 import et.edu.astu.core.models.Employee;
 import et.edu.astu.core.models.transactions.Deposit;
@@ -35,7 +36,7 @@ public class TransactionService {
     public DepositResponse deposit(String employeeId, DepositRequest request){
         Employee employee = employeeRepository.findById(employeeId).orElseThrow();
         Account account = accountRepository.findByAccountNumber(request.accountNumber()).orElseThrow();
-        String transactionId = generator.generateTransactionId(repository.count(), request.amount());
+        String transactionId = generator.generateTransactionId(repository.count(), (int) request.amount());
 
         Deposit deposit = new Deposit();
         deposit.setTransactionId(transactionId);
@@ -47,14 +48,14 @@ public class TransactionService {
 
         botService.notifyDeposit(account, deposit);
 
-        return DepositResponse.map(deposit);
+        return Mapper.map(deposit);
     }
 
     @Transactional
     public DepositResponse withdraw(String employeeId, DepositRequest request){
         Employee employee = employeeRepository.findById(employeeId).orElseThrow();
         Account account = accountRepository.findByAccountNumber(request.accountNumber()).orElseThrow();
-        String transactionId = generator.generateTransactionId(repository.count(), request.amount());
+        String transactionId = generator.generateTransactionId(repository.count(), (int) request.amount());
 
         if (request.amount() > account.getBalance())
             throw new RuntimeException("Insufficient remaining funds");
@@ -69,7 +70,7 @@ public class TransactionService {
 
         botService.notifyWithdraw(account, withdraw);
 
-        return DepositResponse.map(withdraw);
+        return Mapper.map(withdraw);
     }
 
     private void validateTransfer(TransferRequest request){
@@ -94,7 +95,7 @@ public class TransactionService {
         String transactionId = generator.generateTransactionId(repository.count(), request.amount());
 
         transfer.setTransactionId(transactionId);
-        transfer.setAmount(request.amount());
+        transfer.setAmount(Double.valueOf(request.amount()));
         transfer.setHolder(sender);
         transfer.setReceiver(receiver);
 
@@ -103,7 +104,7 @@ public class TransactionService {
 
         botService.notifyTransfer(transfer);
 
-        return TransferResponse.map(transfer);
+        return Mapper.map(transfer);
     }
 
     public List<TransactionResponse> findTransaction(Long accountNumber, Pageable pageable){
@@ -114,9 +115,9 @@ public class TransactionService {
         Transaction transaction = repository.findByTransactionId(trxId).orElseThrow();
 
         if (transaction instanceof Deposit || transaction instanceof Withdraw)
-            return DepositResponse.map(transaction);
+            return Mapper.map(transaction);
         if (transaction instanceof Transfer)
-            return TransferResponse.map((Transfer) transaction);
+            return Mapper.map((Transfer) transaction);
 
         return transaction;
     }
