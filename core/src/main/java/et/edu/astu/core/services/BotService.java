@@ -1,6 +1,7 @@
 package et.edu.astu.core.services;
 
-import et.edu.astu.core.dtos.TransferResponse;
+import et.edu.astu.common.dto.TransferResponse;
+import et.edu.astu.core.mapper.Mapper;
 import et.edu.astu.core.models.Account;
 import et.edu.astu.core.models.transactions.Deposit;
 import et.edu.astu.core.models.transactions.Transfer;
@@ -30,11 +31,11 @@ public class BotService {
                         """
                         <b>New Deposit</b>
                         
-                        <i>You have successfully deposited %d BIRR to your account</i>
+                        <i>You have successfully deposited %f BIRR to your account</i>
                         
                         <b>Transaction ID</b>: <code>%s</code>
-                        <b>Amount</b>: %d BIRR
-                        <b>Current Balance<b>: %d BIRR
+                        <b>Amount</b>: %f BIRR
+                        <b>Current Balance<b>: %f BIRR
                         """.formatted(deposit.getAmount(), deposit.getTransactionId(), deposit.getAmount(), account.getBalance())
                 )
                         .messageEffectId("")
@@ -75,7 +76,7 @@ public class BotService {
     protected void notifyTransfer(Transfer transfer) {
         Account sender = transfer.getHolder();
         Account receiver = transfer.getReceiver();
-        TransferResponse response = TransferResponse.map(transfer);
+        TransferResponse response = Mapper.map(transfer);
 
         if (sender.linkedWithTelegram()) {
             long senderTelegramId = sender.getUser().getUserId();
@@ -86,14 +87,14 @@ public class BotService {
                                 """
                                 <b>New Transfer</b>
                                 
-                                <i>You have successfully transferred %d BIRR from your account</i>
+                                <i>You have successfully transferred %f BIRR from your account</i>
                                 
                                 <b>From Account</b>: <code>%d</b>
                                 <b>To Account</b>: <code>%d</b>
                                 <b>Receiver Name</b>: <code>%s</code>
                                 <b>Transaction ID</b>: <code>%s</code>
-                                <b>Amount</b>: %d BIRR
-                                <b>Current Balance<b>: %d BIRR
+                                <b>Amount</b>: %f BIRR
+                                <b>Current Balance<b>: %f BIRR
                                 """.formatted(
                                     response.amount(),
                                     response.senderAccountNumber(),
@@ -120,14 +121,14 @@ public class BotService {
                                 """
                                 <b>New Receive</b>
                                 
-                                <i>You have successfully received %d BIRR transfer.
+                                <i>You have successfully received %f BIRR transfer.
                                 
                                 <b>From Account</b>: <code>%d</b>
                                 <b>To Account</b>: <code>%d</b>
                                 <b>Sender Name</b>: <code>%s</code>
                                 <b>Transaction ID</b>: <code>%s</code>
-                                <b>Amount</b>: %d BIRR
-                                <b>Current Balance<b>: %d BIRR
+                                <b>Amount</b>: %f BIRR
+                                <b>Current Balance<b>: %f BIRR
                                 """.formatted(
                                     response.amount(),
                                     response.senderAccountNumber(),
