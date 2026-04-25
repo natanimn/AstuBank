@@ -49,7 +49,7 @@ public class EmployeeService {
         );
     }
 
-    protected LoginResponse login(EmployeeLoginRequest request){
+    public LoginResponse login(EmployeeLoginRequest request){
         Employee employee = repository.findByUsername(request.username())
                 .orElseThrow(() ->  new RuntimeException("Incorrect username or password"));
 
