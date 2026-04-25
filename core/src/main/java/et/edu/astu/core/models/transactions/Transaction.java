@@ -31,7 +31,7 @@ public class Transaction {
 
     @Column(nullable = false)
     @Min(5)
-    private Integer amount;
+    private Double amount;
 
     @ManyToOne
     @JoinColumn(name = "account_id")
