@@ -1,7 +1,7 @@
 package et.edu.astu.core.controllers.employee;
 
-import et.edu.astu.core.dtos.EmployeeLoginRequest;
-import et.edu.astu.core.dtos.LoginResponse;
+import et.edu.astu.common.dto.EmployeeLoginRequest;
+import et.edu.astu.common.dto.LoginResponse;
 import et.edu.astu.core.services.AccountService;
 import et.edu.astu.core.services.EmployeeService;
 import lombok.RequiredArgsConstructor;
