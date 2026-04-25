@@ -46,7 +46,7 @@ public class Account {
     private LocalDateTime birthDate;
 
     @Min(0)
-    private Integer balance;
+    private Double balance;
 
     @Column(name = "created_at", nullable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
@@ -55,7 +55,7 @@ public class Account {
     @OneToOne(mappedBy = "account")
     private User user;
 
-    public Account(Long accountNumber, String firstName, String middleName, String lastName, String phone, LocalDateTime birthDate, Integer balance) {
+    public Account(Long accountNumber, String firstName, String middleName, String lastName, String phone, LocalDateTime birthDate, Double balance) {
         this.accountNumber = accountNumber;
         this.firstName = firstName;
         this.middleName = middleName;
