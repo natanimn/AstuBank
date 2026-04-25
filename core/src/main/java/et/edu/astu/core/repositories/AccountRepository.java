@@ -1,6 +1,6 @@
 package et.edu.astu.core.repositories;
 
-import et.edu.astu.core.interfaces.CustomerResponse;
+import et.edu.astu.common.interfaces.CustomerResponse;
 import et.edu.astu.core.models.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
