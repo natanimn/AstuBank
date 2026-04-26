@@ -13,6 +13,11 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+/**
+ * AccountService class.
+ *
+ * @author Natanim
+ */
 @Service
 @RequiredArgsConstructor
 public class AccountService {
@@ -54,6 +59,12 @@ public class AccountService {
 
     public AccountResponse searchByPhone(String phone){
         Account account = repository.findByPhone(phone)
+                .orElseThrow(() -> new RuntimeException("Account not found"));
+        return Mapper.map(account);
+    }
+
+    public AccountResponse searchByAccount(Long accountNumber){
+        Account account = repository.findByAccountNumber(accountNumber)
                 .orElseThrow(() -> new RuntimeException("Account not found"));
         return Mapper.map(account);
     }
