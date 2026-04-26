@@ -21,4 +21,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
     List<TransactionResponse> findTransactions(@Param("ac") Long ac, Pageable pageable);
 
     Optional<Transaction> findByTransactionId(String trxId);
+
+    long countByAccountAccountNumber(Long account);
+
 }
