@@ -5,10 +5,10 @@ import et.edu.astu.common.dto.CreateAccountRequest;
 import et.edu.astu.common.dto.DepositRequest;
 import et.edu.astu.common.dto.DepositResponse;
 import et.edu.astu.common.dto.OTPResponse;
+import et.edu.astu.common.dto.TransactionResponses;
 import et.edu.astu.common.dto.TransferRequest;
 import et.edu.astu.common.dto.TransferResponse;
 import et.edu.astu.common.interfaces.CustomerResponse;
-import et.edu.astu.common.interfaces.TransactionResponse;
 import et.edu.astu.core.services.AccountService;
 import et.edu.astu.core.services.OTPService;
 import et.edu.astu.core.services.TransactionService;
@@ -25,8 +25,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.awt.print.Pageable;
-import java.util.List;
 
+/**
+ * EmployeeAccountController class.
+ *
+ * @author Natanim
+ */
 @RestController
 @RequestMapping("/api/e/account")
 @RequiredArgsConstructor
@@ -68,7 +72,7 @@ public class EmployeeAccountController {
     }
 
     @GetMapping("/{ac}/transactions")
-    public ResponseEntity<List<TransactionResponse>> findTransactions(@PathVariable Long ac, @PageableDefault Pageable pageable){
+    public ResponseEntity<TransactionResponses> findTransactions(@PathVariable Long ac, @PageableDefault Pageable pageable){
         return new ResponseEntity<>(transactionService.findTransaction(ac, pageable), HttpStatus.OK);
     }
 
