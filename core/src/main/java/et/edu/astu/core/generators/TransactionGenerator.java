@@ -6,9 +6,9 @@ import java.time.Instant;
 
 @Component
 public class TransactionGenerator {
-    public String generateTransactionId(long count, int amount){
+    public String generateTransactionId(long count, double amount){
         long now = Instant.now().getEpochSecond() % 10_000;
-        String base = "%d%01d%d".formatted(now, count + 1, amount);
+        String base = "%d%01d%d".formatted(now, count + 1, (int) amount);
         int checksum = computeChecksum(base);
         return String.format("%d%01d%d", now, count + 1, checksum);
     }
