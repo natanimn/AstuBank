@@ -2,6 +2,7 @@ package et.edu.astu.core.services;
 
 import et.edu.astu.common.dto.DepositRequest;
 import et.edu.astu.common.dto.DepositResponse;
+import et.edu.astu.common.dto.TransactionResponses;
 import et.edu.astu.common.dto.TransferRequest;
 import et.edu.astu.common.dto.TransferResponse;
 import et.edu.astu.common.interfaces.TransactionResponse;
@@ -91,11 +92,14 @@ public class TransactionService {
         if (request.amount() > sender.getBalance())
             throw new RuntimeException("Insufficient remaining funds");
 
+        if (request.receiver().equals(request.sender()))
+            throw new RuntimeException("Receiver's and Sender's account numbers are the same");
+
         Transfer transfer = new Transfer();
         String transactionId = generator.generateTransactionId(repository.count(), request.amount());
 
         transfer.setTransactionId(transactionId);
-        transfer.setAmount(Double.valueOf(request.amount()));
+        transfer.setAmount(request.amount());
         transfer.setHolder(sender);
         transfer.setReceiver(receiver);
 
@@ -107,8 +111,11 @@ public class TransactionService {
         return Mapper.map(transfer);
     }
 
-    public List<TransactionResponse> findTransaction(Long accountNumber, Pageable pageable){
-        return repository.findTransactions(accountNumber, pageable);
+    public TransactionResponses findTransaction(Long accountNumber, Pageable pageable){
+        List<TransactionResponse> transactions = repository.findTransactions(accountNumber, pageable);
+        long count = repository.countByAccountAccountNumber(accountNumber);
+
+        return new TransactionResponses(count, transactions);
     }
 
     public Object findTransaction(String trxId){
