@@ -1,3 +1,3 @@
 package et.edu.astu.common.dto;
 
-public record TransferRequest(Long sender, Long receiver, Integer amount) { }
+public record TransferRequest(Long sender, Long receiver, Double amount) { }
