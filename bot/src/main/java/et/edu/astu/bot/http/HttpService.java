@@ -2,13 +2,18 @@ package et.edu.astu.bot.http;
 
 import et.edu.astu.common.dto.AccountResponse;
 import et.edu.astu.common.dto.LoginResponse;
+import et.edu.astu.common.dto.TransactionResponses;
+import et.edu.astu.common.dto.TransferResponse;
 import et.edu.astu.common.dto.UserAccountResponse;
 import et.edu.astu.common.dto.UserLoginOTPRequest;
 import et.edu.astu.common.dto.UserResponse;
-import et.edu.astu.common.interfaces.TransactionResponse;
+import et.edu.astu.common.dto.UserTransferRequest;
 
-import java.util.List;
-
+/**
+ * HttpService class.
+ *
+ * @author Natanim
+ */
 public class HttpService {
     private final Client client;
 
@@ -24,12 +29,12 @@ public class HttpService {
         return client.get("/u/my/account", userId, UserAccountResponse.class);
     }
 
-    public List<TransactionResponse> getMyTransactions(Long userId){
-        return client.getList("/u/my/transactions", userId, TransactionResponse.class);
+    public TransactionResponses getMyTransactions(Long userId){
+        return client.get("/u/my/transactions", userId, TransactionResponses.class);
     }
 
-    public List<TransactionResponse> getMyTransactions(Long userId, int page){
-        return client.getList("/u/my/transactions?page=%d".formatted(page), userId, TransactionResponse.class);
+    public TransactionResponses getMyTransactions(Long userId, int page){
+        return client.getList("/u/my/transactions?page=%d".formatted(page), userId, TransactionResponses.class);
     }
 
     public void login(UserLoginOTPRequest request){
@@ -40,5 +45,11 @@ public class HttpService {
         return client.get("/u/search/account?phone=%s".formatted(phone), userId, AccountResponse.class);
     }
 
+    public AccountResponse searchAccount(Long userId, Long accountNumber){
+        return client.get("/u/search/account?account=%s".formatted(accountNumber), userId, AccountResponse.class);
+    }
 
+    public TransferResponse transfer(UserTransferRequest request){
+        return client.post("/u/transfer", request.userId(), request, TransferResponse.class);
+    }
 }
