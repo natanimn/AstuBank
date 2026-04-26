@@ -2,6 +2,7 @@ package et.edu.astu.core.controllers.user;
 
 import et.edu.astu.common.dto.TransferRequest;
 import et.edu.astu.common.dto.TransferResponse;
+import et.edu.astu.common.dto.UserTransferRequest;
 import et.edu.astu.core.services.TransactionService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,7 @@ public class TransactionUserAccountController {
     private final TransactionService service;
 
     @PostMapping("/transfer")
-    public ResponseEntity<TransferResponse> transfer(HttpServletRequest http, @RequestBody TransferRequest request){
+    public ResponseEntity<TransferResponse> transfer(HttpServletRequest http, @RequestBody UserTransferRequest request){
         Long account = (Long) http.getAttribute("account");
         TransferRequest transferRequest = new TransferRequest(account, request.receiver(), request.amount());
         return new ResponseEntity<>(service.transfer(transferRequest), HttpStatus.CREATED);
