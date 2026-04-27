@@ -1,7 +1,7 @@
 package et.edu.astu.core.services;
 
 import et.edu.astu.common.dto.CreatedEmployeeResponse;
-import et.edu.astu.common.dto.EmployeeLoginRequest;
+import et.edu.astu.common.dto.LoginRequest;
 import et.edu.astu.common.dto.EmployeeRequest;
 import et.edu.astu.common.dto.LoginResponse;
 import et.edu.astu.core.generators.EmployeeGenerator;
@@ -49,7 +49,7 @@ public class EmployeeService {
         );
     }
 
-    public LoginResponse login(EmployeeLoginRequest request){
+    public LoginResponse login(LoginRequest request){
         Employee employee = repository.findByUsername(request.username())
                 .orElseThrow(() ->  new RuntimeException("Incorrect username or password"));
 
