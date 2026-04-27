@@ -8,6 +8,12 @@ import et.edu.astu.core.models.Account;
 import et.edu.astu.core.models.transactions.Transaction;
 import et.edu.astu.core.models.transactions.Transfer;
 
+/**
+ * Mapper class.
+ * Maps model class data into dto class.
+ *
+ * @author Natanim
+ */
 public abstract class Mapper {
     public static AccountResponse map(Account account){
         return new AccountResponse(
@@ -40,7 +46,8 @@ public abstract class Mapper {
                 receiver.getFirstName() + " " + receiver.getMiddleName() + " " + receiver.getLastName(),
                 receiver.getAccountNumber(),
                 transfer.getTransactionId(),
-                transfer.getAmount()
+                transfer.getAmount(),
+                transfer.getCreatedAt()
         );
     }
 
