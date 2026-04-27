@@ -52,4 +52,8 @@ public class HttpService {
     public TransferResponse transfer(UserTransferRequest request){
         return client.post("/u/transfer", request.userId(), request, TransferResponse.class);
     }
+
+    public Object getTransaction(Long userId, String id){
+        return client.get("/u/my/transactions/%s".formatted(id), userId, Object.class);
+    }
 }
