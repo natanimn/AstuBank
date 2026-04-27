@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public interface TransactionResponse {
     String getTransactionId();
-    Integer getAmount();
+    Double getAmount();
     String getType();
     LocalDateTime getCreatedAt();
 }
