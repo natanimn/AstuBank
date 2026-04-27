@@ -19,11 +19,16 @@ import et.edu.astu.core.repositories.EmployeeRepository;
 import et.edu.astu.core.repositories.TransactionRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Pageable;
 import java.util.List;
 
+/**
+ * TransactionService class.
+ *
+ * @author Natanim
+ */
 @Service
 @RequiredArgsConstructor
 public class TransactionService {
