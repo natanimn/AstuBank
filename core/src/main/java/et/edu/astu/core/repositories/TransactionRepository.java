@@ -2,15 +2,20 @@ package et.edu.astu.core.repositories;
 
 import et.edu.astu.common.interfaces.TransactionResponse;
 import et.edu.astu.core.models.transactions.Transaction;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.awt.print.Pageable;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * TransactionRepository interface
+ *
+ * @author Natanim
+ */
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
     @Query(
