@@ -129,7 +129,7 @@ public abstract class KeyboardHelper {
         for (var response: responses) {
             String id = response.getTransactionId();
             String type = response.getType();
-            buttons.add(new InlineKeyboardButton("Trx " + id, "trx:%s:%s".formatted(type, id)));
+            buttons.add(new InlineKeyboardButton("Trx " + id, "trx:%s:%s:%d".formatted(type, id, page)));
         }
 
         return new InlineKeyboardMarkup(
@@ -138,6 +138,13 @@ public abstract class KeyboardHelper {
                         pagination.toArray(new InlineKeyboardButton[0])
                 }
         );
+    }
 
+    public static InlineKeyboardMarkup back(int page){
+        return new InlineKeyboardMarkup(
+                new InlineKeyboardButton[]{
+                        new InlineKeyboardButton("Back", "transactions:"+page)
+                }
+        );
     }
 }
