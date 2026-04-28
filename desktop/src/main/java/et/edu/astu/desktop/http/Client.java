@@ -1,7 +1,8 @@
 package et.edu.astu.desktop.http;
 
 import com.google.gson.Gson;
-import et.edu.astu.desktop.helpers.Mapper;
+import com.google.gson.GsonBuilder;
+import et.edu.astu.desktop.helpers.LocalDateTimeAdapter;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -10,6 +11,7 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 import java.lang.reflect.Type;
+import java.time.LocalDateTime;
 
 public class Client {
     private final OkHttpClient client;
@@ -17,7 +19,9 @@ public class Client {
 
     public Client() {
         client = new OkHttpClient.Builder().build();
-        gson = new Gson();
+        gson = new GsonBuilder()
+                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
+                .create();
     }
 
     private Request.Builder prepareRequest(String endpoint, String token){
@@ -46,7 +50,7 @@ public class Client {
     }
 
     public <T> T post(String path,  String token, Type type){
-        Request.Builder builder = prepareRequestWithNoHeader(path);
+        Request.Builder builder = prepareRequest(path, token);
         RequestBody requestBody = RequestBody.create("{}", MediaType.get("application/json"));
         return makeRequest(builder.post(requestBody).build(), type);
     }
@@ -65,8 +69,7 @@ public class Client {
         try (Response response = client.newCall(request).execute()){
             ResponseBody body = response.body();
             String json = body.string();
-            ApiResponse<T> apiResponse = Mapper.map(json, type);
-            return apiResponse.getResult();
+            return gson.fromJson(json, type);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
