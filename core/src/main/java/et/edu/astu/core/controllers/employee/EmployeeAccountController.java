@@ -44,7 +44,7 @@ public class EmployeeAccountController {
     }
 
     @GetMapping("/{ac}")
-    public ResponseEntity<CustomerResponse> findCustomer(@PathVariable Long ac){
+    public ResponseEntity<AccountResponse> findCustomer(@PathVariable Long ac){
         return new ResponseEntity<>(accountService.findCustomer(ac), HttpStatus.OK);
     }
 
