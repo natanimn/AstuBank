@@ -20,7 +20,8 @@ public abstract class Mapper {
                 account.getAccountNumber(),
                 account.getFirstName(),
                 account.getMiddleName(),
-                account.getLastName()
+                account.getLastName(),
+                account.linkedWithTelegram()
         );
     }
 
