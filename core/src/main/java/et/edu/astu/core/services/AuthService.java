@@ -16,10 +16,10 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class AuthService {
-    @Value("{app.admin.username}")
+    @Value("${app.admin.username}")
     private String ADMIN_USERNAME;
 
-    @Value("{app.admin.password}")
+    @Value("${app.admin.password}")
     private String ADMIN_PASSWORD;
 
     private final EmployeeService employeeService;
