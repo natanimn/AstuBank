@@ -2,7 +2,6 @@ package et.edu.astu.core.services;
 
 import et.edu.astu.common.dto.AccountResponse;
 import et.edu.astu.common.dto.CreateAccountRequest;
-import et.edu.astu.common.interfaces.CustomerResponse;
 import et.edu.astu.core.mapper.Mapper;
 import et.edu.astu.core.generators.AccountGenerator;
 import et.edu.astu.core.models.Account;
@@ -69,8 +68,10 @@ public class AccountService {
         return Mapper.map(account);
     }
 
-    public CustomerResponse findCustomer(Long accountNumber){
-        return repository.findAccount(accountNumber);
+    public AccountResponse findCustomer(Long accountNumber){
+        return repository.findByAccountNumber(accountNumber)
+                .map(Mapper::map)
+                .orElseThrow();
     }
 
     @Transactional
