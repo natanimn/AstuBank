@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: Core
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/astu_bank
+    username: postgres
+    password: admin
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+app:
+  admin:
+    username: admin
+    password: admin
+  bot:
+    token: BOT_TOKEN
+
+jwt:
+  secret:
+    key: aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYz098764321astubank
+  expiration:
+    seconds: 3600
+
+logging:
+  level:
+    root: ERROR
