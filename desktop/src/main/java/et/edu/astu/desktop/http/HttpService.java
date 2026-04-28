@@ -35,7 +35,7 @@ public class HttpService {
     }
 
     public LoginResponse loginAsEmployee(LoginRequest request){
-        return client.post("/auth/user/login", request, LoginResponse.class);
+        return client.post("/auth/employee/login", request, LoginResponse.class);
     }
 
     public AccountResponse createAccount(CreateAccountRequest request, String token){
