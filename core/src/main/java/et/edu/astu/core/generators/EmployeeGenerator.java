@@ -17,8 +17,10 @@ public class EmployeeGenerator {
         StringBuilder passwords = new StringBuilder();
         ThreadLocalRandom random = ThreadLocalRandom.current();
         String passwordKeys = "abcdefghijklmnopqrstuvwxyz@!0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        for (int i = 0; i<6; i++)
-            passwords.append(passwordKeys.indexOf(random.nextInt(0, passwordKeys.length())));
+        for (int i = 0; i<6; i++){
+            int r = random.nextInt(0, passwordKeys.length());
+            passwords.append(passwordKeys.charAt(r));
+        }
         return passwords.toString();
     }
 }
