@@ -118,7 +118,7 @@ public class TransactionService {
 
     public TransactionResponses findTransaction(Long accountNumber, Pageable pageable){
         List<TransactionResponse> transactions = repository.findTransactions(accountNumber, pageable);
-        long count = repository.countByAccountAccountNumber(accountNumber);
+        long count = repository.countByHolderAccountNumber(accountNumber);
 
         return new TransactionResponses(count, transactions);
     }
