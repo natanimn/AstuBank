@@ -10,12 +10,15 @@ import et.edu.astu.core.models.Employee;
 import et.edu.astu.core.repositories.EmployeeRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class EmployeeService {
+public class EmployeeService implements UserDetailsService {
     private final EmployeeRepository repository;
     private final EmployeeGenerator generator;
     private final BCryptPasswordEncoder encoder;
@@ -65,4 +68,9 @@ public class EmployeeService {
         return new CustomEmployeeDetails(employee.getUsername(), employee.getPassword());
     }
 
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Employee employee = repository.findByUsername(username).orElseThrow();
+        return new CustomEmployeeDetails(employee.getUsername(), employee.getPassword());
+    }
 }
