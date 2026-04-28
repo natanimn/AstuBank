@@ -24,7 +24,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity security){
         return security.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(http -> http
-                        .requestMatchers("/api/auth/**")
+                        .requestMatchers("/api/auth/**", "/api/admin/**")
                         .permitAll()
                         .requestMatchers("/api/e/**")
                         .hasRole("EMPLOYEE")
