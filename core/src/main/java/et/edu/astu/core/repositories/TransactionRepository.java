@@ -27,6 +27,6 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
 
     Optional<Transaction> findByTransactionId(String trxId);
 
-    long countByAccountAccountNumber(Long account);
+    long countByHolderAccountNumber(Long account);
 
 }
