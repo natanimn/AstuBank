@@ -34,7 +34,7 @@ public class HttpService {
     }
 
     public TransactionResponses getMyTransactions(Long userId, int page){
-        return client.getList("/u/my/transactions?page=%d".formatted(page), userId, TransactionResponses.class);
+        return client.get("/u/my/transactions?page=%d".formatted(page), userId, TransactionResponses.class);
     }
 
     public void login(UserLoginOTPRequest request){
@@ -49,8 +49,8 @@ public class HttpService {
         return client.get("/u/search/account?account=%s".formatted(accountNumber), userId, AccountResponse.class);
     }
 
-    public TransferResponse transfer(UserTransferRequest request){
-        return client.post("/u/transfer", request.userId(), request, TransferResponse.class);
+    public Object transfer(UserTransferRequest request){
+        return client.post("/u/transaction/transfer", request.userId(), request, Object.class);
     }
 
     public Object getTransaction(Long userId, String id){
