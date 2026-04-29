@@ -56,8 +56,8 @@ public class BasicUserAccountController {
 
     @GetMapping("/my/transactions/{id}")
     @PreAuthorize("hasAuthority('connected')")
-    public ResponseEntity<Object> myTransaction(@PathVariable String trxId){
-        return new ResponseEntity<>(transactionService.findTransaction(trxId), HttpStatus.OK);
+    public ResponseEntity<Object> myTransaction(@PathVariable String id){
+        return new ResponseEntity<>(transactionService.findTransaction(id), HttpStatus.OK);
     }
 
     @GetMapping("/search/account")
