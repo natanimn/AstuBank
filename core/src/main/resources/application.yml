@@ -2,8 +2,13 @@ spring:
   application:
     name: Core
 
+  data:
+    web:
+      pageable:
+        one-indexed-parameters: true
+
   datasource:
-    url: jdbc:postgresql://localhost:5432/astu_bank
+    url: jdbc:postgresql://db:5432/astu_bank
     username: postgres
     password: admin
 
