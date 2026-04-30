@@ -28,7 +28,7 @@ public class LoginView extends JFrame {
     private JButton employeeLoginButton;
 
     public LoginView() {
-        setTitle("AstuBank - Secure Login");
+        setTitle("ASTU Bank - Secure Login");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(450, 600);
         setLocationRelativeTo(null);
@@ -39,10 +39,9 @@ public class LoginView extends JFrame {
         mainCard.setPreferredSize(new Dimension(380, 500));
         mainCard.setLayout(new BorderLayout(0, 20));
 
-        // Header Section
         JPanel headerPanel = new JPanel(new GridLayout(2, 1, 0, 5));
         headerPanel.setBackground(UIUtils.SURFACE_COLOR);
-        JLabel titleLabel = UIUtils.createLabel("ASTUBANK", UIUtils.HEADER_FONT, UIUtils.PRIMARY_COLOR);
+        JLabel titleLabel = UIUtils.createLabel("ASTU BANK", UIUtils.HEADER_FONT, UIUtils.PRIMARY_COLOR);
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
         JLabel subtitleLabel = UIUtils.createLabel("Secure Gateway", UIUtils.REGULAR_FONT, UIUtils.TEXT_SECONDARY);
         subtitleLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -50,7 +49,6 @@ public class LoginView extends JFrame {
         headerPanel.add(subtitleLabel);
         mainCard.add(headerPanel, BorderLayout.NORTH);
 
-        // Content Section (Tabs for Admin/Employee)
         JTabbedPane tabbedPane = new JTabbedPane();
         tabbedPane.putClientProperty("JTabbedPane.showTabSeparators", true);
         tabbedPane.putClientProperty("JTabbedPane.tabType", "card");
