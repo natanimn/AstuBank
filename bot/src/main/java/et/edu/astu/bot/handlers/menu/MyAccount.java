@@ -21,7 +21,7 @@ public class MyAccount {
     private final HttpService service = new HttpService();
 
     @MessageHandler(texts = "\uD83D\uDC64 My Account", chatType = ChatType.PRIVATE, filter = IsConnected.class)
-    @MessageHandler(commands = "/myaccount")
+    @MessageHandler(commands = "myaccount")
     private void myAccount(BotContext ctx, Message message){
         long userId = message.getFrom().getId();
         UserAccountResponse response = service.getMyAccount(userId);
