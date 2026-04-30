@@ -1,7 +1,7 @@
 package et.edu.astu.bot.helpers;
 
 import et.edu.astu.common.dto.UserResponse;
-import et.edu.astu.common.interfaces.TransactionResponse;
+import et.edu.astu.common.dto.TransactionResponse;
 import io.github.natanimn.telebof.enums.ButtonStyle;
 import io.github.natanimn.telebof.types.keyboard.InlineKeyboardButton;
 import io.github.natanimn.telebof.types.keyboard.InlineKeyboardMarkup;
