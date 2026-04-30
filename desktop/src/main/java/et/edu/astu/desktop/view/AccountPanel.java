@@ -237,10 +237,21 @@ public class AccountPanel extends JPanel {
         }
     }
 
-    public String getSearchAccountNumber() { return searchAccField.getText(); }
-    public JButton getCreateBtn() { return createBtn; }
-    public JButton getSearchBtn() { return searchBtn; }
-    public JButton getTelegramBtn() { return telegramBtn; }
+    public String getSearchAccountNumber() {
+        return searchAccField.getText();
+    }
+
+    public JButton getCreateBtn() {
+        return createBtn;
+    }
+
+    public JButton getSearchBtn() {
+        return searchBtn;
+    }
+
+    public JButton getTelegramBtn() {
+        return telegramBtn;
+    }
 
     public void setAccountInfo(AccountResponse acc) {
         this.currentAccount = acc;
