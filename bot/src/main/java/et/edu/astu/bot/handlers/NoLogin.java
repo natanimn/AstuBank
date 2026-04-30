@@ -6,6 +6,8 @@ import et.edu.astu.common.dto.UserResponse;
 import io.github.natanimn.telebof.BotContext;
 import io.github.natanimn.telebof.annotations.MessageHandler;
 import io.github.natanimn.telebof.enums.ChatType;
+import io.github.natanimn.telebof.types.bot.BotCommand;
+import io.github.natanimn.telebof.types.bot.BotCommandScopeChat;
 import io.github.natanimn.telebof.types.updates.Message;
 
 /**
@@ -22,6 +24,15 @@ public class NoLogin {
                 "LOGIN REQUIRED!!"
         )
                 .replyMarkup(KeyboardHelper.mainKeyboard(new UserResponse(true)))
+                .exec();
+
+        ctx.setMyCommands(
+                new BotCommand[]{
+                        new BotCommand("start", "Restart the bot"),
+                        new BotCommand("login", "Login to your account")
+                }
+        )
+                .scope(new BotCommandScopeChat(message.getFrom().getId()))
                 .exec();
     }
 }
