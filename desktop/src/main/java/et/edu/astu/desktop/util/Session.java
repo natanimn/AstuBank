@@ -11,10 +11,18 @@ public class Session {
         role = r;
     }
 
-    public static String getToken() { return token; }
-    public static String getUsername() { return username; }
-    public static String getRole() { return role; }
-    
+    public static String getToken() {
+        return token;
+    }
+
+    public static String getUsername() {
+        return username;
+    }
+
+    public static String getRole() {
+        return role;
+    }
+
     public static void clear() {
         token = null;
         username = null;
