@@ -8,12 +8,13 @@ import et.edu.astu.core.models.transactions.Transfer;
 import et.edu.astu.core.models.transactions.Withdraw;
 import io.github.natanimn.telebof.BotClient;
 import io.github.natanimn.telebof.enums.ParseMode;
-import io.github.natanimn.telebof.log.BotLog;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class BotService {
     private final BotClient bot;
 
@@ -29,20 +30,25 @@ public class BotService {
                 bot.context.sendMessage(
                         userId,
                         """
-                        <b>New Deposit</b>
+                        <b>➕ New Deposit</b>
                         
-                        <i>You have successfully deposited %f BIRR to your account</i>
+                        <i>✅ You have successfully deposited %.2f BIRR to your account</i>
                         
-                        <b>Transaction ID</b>: <code>%s</code>
-                        <b>Amount</b>: %f BIRR
-                        <b>Current Balance<b>: %f BIRR
-                        """.formatted(deposit.getAmount(), deposit.getTransactionId(), deposit.getAmount(), account.getBalance())
+                        <b>Transaction ID:</b> <code>%s</code>
+                        <b>Amount:</b> %.2f BIRR
+                        <b>Current Balance:</b> %.2f BIRR
+                        """.formatted(
+                                deposit.getAmount(),
+                                deposit.getTransactionId(),
+                                deposit.getAmount().floatValue(),
+                                account.getBalance().floatValue()
+                        )
                 )
-                        .messageEffectId("")
+                        .messageEffectId("5046509860389126442")
                         .parseMode(ParseMode.HTML)
                         .exec();
             } catch (Exception e) {
-                BotLog.error("Unable to send deposit notification to {}. {}", userId, e.getMessage());
+                throw new RuntimeException(e);
             }
         }
     }
@@ -55,20 +61,25 @@ public class BotService {
                 bot.context.sendMessage(
                                 userId,
                                 """
-                                <b>New Withdraw</b>
+                                <b>🔼 New Withdraw</b>
                                 
-                                <i>You have successfully withdrew %d BIRR from your account</i>
+                                <i>✅ You have successfully withdrew %.2f BIRR from your account</i>
                                 
                                 <b>Transaction ID</b>: <code>%s</code>
-                                <b>Amount</b>: %d BIRR
-                                <b>Current Balance<b>: %d BIRR
-                                """.formatted(withdraw.getAmount(), withdraw.getTransactionId(), withdraw.getAmount(), account.getBalance())
+                                <b>Amount</b>: %.2f BIRR
+                                <b>Current Balance:</b> %.2f BIRR
+                                """.formatted(
+                                        withdraw.getAmount(),
+                                        withdraw.getTransactionId(),
+                                        withdraw.getAmount(),
+                                        account.getBalance()
+                                )
                         )
-                        .messageEffectId("")
+                        .messageEffectId("5046509860389126442")
                         .parseMode(ParseMode.HTML)
                         .exec();
             } catch (Exception e) {
-                BotLog.error("Unable to send withdraw notification to {}. {}", userId, e.getMessage());
+                throw new RuntimeException(e);
             }
         }
     }
@@ -78,6 +89,37 @@ public class BotService {
         Account receiver = transfer.getReceiver();
         TransferResponse response = Mapper.map(transfer);
 
+        if (receiver.linkedWithTelegram()) {
+            long receiverTelegramId = receiver.getUser().getUserId();
+            try {
+                bot.context.sendMessage(
+                                receiverTelegramId,
+                                """
+                                <b>🔽 New TopUp</b>
+                                
+                                <i>✅ You have successfully received %.2f BIRR from account <code>%d</code></i>
+                                
+                                <b>Sender Name</b>: <code>%s</code>
+                                <b>Transaction ID</b>: <code>%s</code>
+                                <b>Amount</b>: %.2f BIRR
+                                <b>Current Balance</b>: %.2f BIRR
+                                """.formatted(
+                                    response.amount(),
+                                    response.senderAccountNumber(),
+                                    response.senderFullName(),
+                                    response.transactionId(),
+                                    response.amount(),
+                                    receiver.getBalance()
+                                )
+                        )
+                        .messageEffectId("5046509860389126442")
+                        .parseMode(ParseMode.HTML)
+                        .exec();
+            } catch (Exception e) {
+                log.error("Unable to send topUp notification to {}. {}", receiverTelegramId, e.getMessage());
+            }
+        }
+
         if (sender.linkedWithTelegram()) {
             long senderTelegramId = sender.getUser().getUserId();
             try {
@@ -85,65 +127,28 @@ public class BotService {
                 bot.context.sendMessage(
                                 senderTelegramId,
                                 """
-                                <b>New Transfer</b>
+                                <b> ↗️ New Transfer </b>
                                 
-                                <i>You have successfully transferred %f BIRR from your account</i>
+                                <i>✅ You have successfully transferred %.2f BIRR to account <code>%d</code> </i>
                                 
-                                <b>From Account</b>: <code>%d</b>
-                                <b>To Account</b>: <code>%d</b>
                                 <b>Receiver Name</b>: <code>%s</code>
                                 <b>Transaction ID</b>: <code>%s</code>
-                                <b>Amount</b>: %f BIRR
-                                <b>Current Balance<b>: %f BIRR
+                                <b>Amount</b>: %.2f BIRR
+                                <b>Current Balance</b>: %.2f BIRR
                                 """.formatted(
-                                    response.amount(),
-                                    response.senderAccountNumber(),
-                                    response.receiverAccountNumber(),
-                                    response.receiverFullName(),
-                                    response.transactionId(),
-                                    response.amount(),
-                                    sender.getBalance()
+                                        response.amount(),
+                                        response.receiverAccountNumber(),
+                                        response.receiverFullName(),
+                                        response.transactionId(),
+                                        response.amount(),
+                                        sender.getBalance()
                                 )
                         )
-                        .messageEffectId("")
+                        .messageEffectId("5046509860389126442")
                         .parseMode(ParseMode.HTML)
                         .exec();
             } catch (Exception e) {
-                BotLog.error("Unable to send transfer notification to {}. {}", senderTelegramId, e.getMessage());
-            }
-        }
-
-        if (receiver.linkedWithTelegram()) {
-            long receiverTelegramId = receiver.getUser().getUserId();
-            try {
-                bot.context.sendMessage(
-                                receiverTelegramId,
-                                """
-                                <b>New Receive</b>
-                                
-                                <i>You have successfully received %f BIRR transfer.
-                                
-                                <b>From Account</b>: <code>%d</b>
-                                <b>To Account</b>: <code>%d</b>
-                                <b>Sender Name</b>: <code>%s</code>
-                                <b>Transaction ID</b>: <code>%s</code>
-                                <b>Amount</b>: %f BIRR
-                                <b>Current Balance<b>: %f BIRR
-                                """.formatted(
-                                    response.amount(),
-                                    response.senderAccountNumber(),
-                                    response.receiverAccountNumber(),
-                                    response.senderFullName(),
-                                    response.transactionId(),
-                                    response.amount(),
-                                    receiver.getBalance()
-                                )
-                        )
-                        .messageEffectId("")
-                        .parseMode(ParseMode.HTML)
-                        .exec();
-            } catch (Exception e) {
-                BotLog.error("Unable to send receive notification to {}. {}", receiverTelegramId, e.getMessage());
+                log.error("Unable to send transfer notification to {}. {}", senderTelegramId, e.getMessage());
             }
         }
     }
