@@ -28,15 +28,15 @@ public abstract class KeyboardHelper {
             return markup;
         }
 
-        markup.add("My Account", "Transfer");
-        markup.add("Transactions");
+        markup.add("\uD83D\uDC64 My Account", "↗ Transfer");
+        markup.add("\uD83D\uDCB3 Transactions");
         return markup;
     }
 
     public static ReplyKeyboardMarkup sharePhone(){
         ReplyKeyboardMarkup markup = new ReplyKeyboardMarkup().setResizeKeyboard(true);
         markup.add(
-                new KeyboardButton("Share Phone")
+                new KeyboardButton("\uD83D\uDCF2 Share Phone")
                         .setRequestContact(true)
         );
         markup.add(
@@ -91,8 +91,7 @@ public abstract class KeyboardHelper {
         long totalPage = (count + size - 1) / size;
 
         String c = name + ":";
-        if ((long) page * size > count)
-            throw new IllegalArgumentException("Invalid page number. Page number must not exceed total count");
+
         if (count <= size)
             return buttons;
         if (page > 1){
@@ -110,7 +109,7 @@ public abstract class KeyboardHelper {
         buttons.add(new InlineKeyboardButton("%d".formatted(page), c + page));
 
         if (page + 1 < totalPage){
-            int next = page - 1;
+            int next = page + 1;
             buttons.add(new InlineKeyboardButton("▶️ %d".formatted(next), c + next));
         }
 
@@ -118,7 +117,7 @@ public abstract class KeyboardHelper {
             if (page + 5 < totalPage)
                 buttons.add(new InlineKeyboardButton("⏩ %d".formatted(totalPage),  c + totalPage));
             else
-                buttons.add(new InlineKeyboardButton("%d".formatted(totalPage), c + totalPage));
+                buttons.add(new InlineKeyboardButton("▶️ %d".formatted(totalPage), c + totalPage));
         }
         return buttons;
     }
@@ -132,18 +131,20 @@ public abstract class KeyboardHelper {
             buttons.add(new InlineKeyboardButton("Trx " + id, "trx:%s:%s:%d".formatted(type, id, page)));
         }
 
-        return new InlineKeyboardMarkup(
-                new InlineKeyboardButton[][]{
-                        buttons.toArray(new InlineKeyboardButton[0]),
-                        pagination.toArray(new InlineKeyboardButton[0])
-                }
-        );
+        InlineKeyboardMarkup markup = new InlineKeyboardMarkup(1);
+
+        if (!buttons.isEmpty())
+            markup.addKeyboard(buttons.toArray(buttons.toArray(new InlineKeyboardButton[0])));
+        markup.setRowWidth(5);
+        if (!pagination.isEmpty())
+            markup.addKeyboard(pagination.toArray(pagination.toArray(new InlineKeyboardButton[0])));
+        return markup;
     }
 
     public static InlineKeyboardMarkup back(int page){
         return new InlineKeyboardMarkup(
                 new InlineKeyboardButton[]{
-                        new InlineKeyboardButton("Back", "transactions:"+page)
+                        new InlineKeyboardButton("\uD83D\uDD19 Back", "transactions:"+page)
                 }
         );
     }
