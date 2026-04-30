@@ -31,7 +31,7 @@ public class Transfer {
     private final HttpService service = new HttpService();
 
     @MessageHandler(
-            texts = "Transfer",
+            texts = "↗ Transfer",
             chatType = ChatType.PRIVATE,
             filter = IsConnected.class
     )
@@ -63,7 +63,7 @@ public class Transfer {
         }
         try {
             AccountResponse response = service.searchAccount(userId, accountNumber);
-            String name =  response.firstName() + response.middleName() + response.lastName();
+            String name =  response.firstName() + " " + response.middleName() + " " + response.lastName();
             ctx.sendMessage(
                             userId,
                             """
@@ -177,7 +177,7 @@ public class Transfer {
                         .exec();
             else {
                 try (ExecutorService service1 = Executors.newSingleThreadExecutor()){
-                    Future<TransferResponse> task = service1.submit(() -> service.transfer(request));
+                    Future<Object> task = service1.submit(() -> service.transfer(request));
                     int dot = 1;
                     StringBuilder builder = new StringBuilder();
                     builder.repeat(".", dot);
