@@ -11,6 +11,8 @@ import io.github.natanimn.telebof.annotations.MessageHandler;
 import io.github.natanimn.telebof.enums.ChatType;
 import io.github.natanimn.telebof.enums.MessageType;
 import io.github.natanimn.telebof.enums.ParseMode;
+import io.github.natanimn.telebof.types.bot.BotCommand;
+import io.github.natanimn.telebof.types.bot.BotCommandScopeChat;
 import io.github.natanimn.telebof.types.keyboard.ForceReply;
 import io.github.natanimn.telebof.types.media_and_service.Contact;
 import io.github.natanimn.telebof.types.updates.Message;
@@ -50,6 +52,7 @@ public class Login extends HttpService {
                 try{
                     String phone = contact.getPhoneNumber().replace("+", "");
                     AccountResponse account = searchAccount(userId, phone);
+                    assert account != null && account.accountNumber() != null;
                     ctx.sendMessage(
                             userId,
                             """
@@ -106,5 +109,17 @@ public class Login extends HttpService {
                 .replyMarkup(KeyboardHelper.mainKeyboard(new UserResponse(false)))
                 .exec();
         ctx.clearState(userId);
+
+
+        ctx.setMyCommands(
+                        new BotCommand[]{
+                                new BotCommand("start", "Restart the bot"),
+                                new BotCommand("myaccount", "Account Information"),
+                                new BotCommand("transfer", "Transfer money to another account"),
+
+                        }
+                )
+                .scope(new BotCommandScopeChat(message.getFrom().getId()))
+                .exec();
     }
 }
