@@ -48,16 +48,17 @@ public class Login extends HttpService {
                         .exec();
             else {
                 try{
-                    AccountResponse account = searchAccount(userId, contact.getPhoneNumber());
+                    String phone = contact.getPhoneNumber().replace("+", "");
+                    AccountResponse account = searchAccount(userId, phone);
                     ctx.sendMessage(
                             userId,
                             """
-                            <b>Account Found</b>
+                            <b>✅ Account Found</b>
                             
-                            <b>Account Number</b>: <code>%d</code>
-                            <b>Holder</b>: %s %s
+                            <b>#️⃣ Account Number</b>: <code>%d</code>
+                            <b>👤 Holder</b>: %s %s
                             
-                            <i>Please enter the OTP</b>
+                            <i>#️⃣ Please enter the OTP</i>
                             """.formatted(account.accountNumber(), account.firstName(), account.middleName())
                     )
                             .parseMode(ParseMode.HTML)
