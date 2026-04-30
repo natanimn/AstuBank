@@ -20,7 +20,7 @@ import java.time.format.DateTimeFormatter;
 public class MyAccount {
     private final HttpService service = new HttpService();
 
-    @MessageHandler(texts = "My Account", chatType = ChatType.PRIVATE, filter = IsConnected.class)
+    @MessageHandler(texts = "\uD83D\uDC64 My Account", chatType = ChatType.PRIVATE, filter = IsConnected.class)
     @MessageHandler(commands = "/myaccount")
     private void myAccount(BotContext ctx, Message message){
         long userId = message.getFrom().getId();
@@ -29,15 +29,15 @@ public class MyAccount {
         ctx.sendMessage(
                 userId,
                 """
-                <b>Account Information</b>
+                <b>👤 Account Information</b>
                 
-                <b>Number</b>: <code>%d</code>
+                <b>#</b>: <code>%d</code>
                 <b>Holder</b>: <code>%s %s %s</code>
-                <b>Balance</b>: %f BIRR
-                <b>Phone</b>: <code>%s</code>
-                <b>Created At</b>: %s
+                <b>💳 Balance</b>: %.2f BIRR
+                <b>📱 Phone</b>: <code>%s</code>
+                <b>📅 Registered at</b>: %s
                 
-                <i>Thank you for your trust</i>
+                <i>🌷 Thank you for your trust</i>
                 """.formatted(
                         response.accountNumber(),
                         response.firstName(),
