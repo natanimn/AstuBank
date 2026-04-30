@@ -18,8 +18,8 @@ import io.github.natanimn.telebof.types.updates.Message;
 public class Cancel {
     private final HttpService service = new HttpService();
 
-    @MessageHandler(state = "*", texts = "Cancel", chatType = ChatType.PRIVATE)
-    @MessageHandler(state = "*", commands = "cancel", chatType = ChatType.PRIVATE)
+    @MessageHandler(texts = "Cancel", chatType = ChatType.PRIVATE)
+    @MessageHandler(commands = "cancel", chatType = ChatType.PRIVATE)
     private void on(BotContext context, Message message){
         long userId = message.getFrom().getId();
         UserResponse response = service.getMe(userId);
