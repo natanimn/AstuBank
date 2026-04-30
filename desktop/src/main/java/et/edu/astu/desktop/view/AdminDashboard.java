@@ -28,7 +28,7 @@ public class AdminDashboard extends JFrame {
     private JButton createEmployeeButton;
 
     public AdminDashboard() {
-        setTitle("Astu Bank Administration");
+        setTitle("ASTU Bank Administration");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(900, 650);
         setLocationRelativeTo(null);
@@ -135,10 +135,21 @@ public class AdminDashboard extends JFrame {
         return btn;
     }
 
-    public String getFirstName() { return firstNameField.getText(); }
-    public String getMiddleName() { return middleNameField.getText(); }
-    public String getLastName() { return lastNameField.getText(); }
-    public JButton getCreateEmployeeButton() { return createEmployeeButton; }
+    public String getFirstName() {
+        return firstNameField.getText();
+    }
+
+    public String getMiddleName() {
+        return middleNameField.getText();
+    }
+
+    public String getLastName() {
+        return lastNameField.getText();
+    }
+
+    public JButton getCreateEmployeeButton() {
+        return createEmployeeButton;
+    }
     
     public void clearFields() {
         firstNameField.setText("");
