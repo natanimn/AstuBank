@@ -57,14 +57,12 @@ public class AccountService {
     }
 
     public AccountResponse searchByPhone(String phone){
-        Account account = repository.findByPhone(phone)
-                .orElseThrow(() -> new RuntimeException("Account not found"));
+        Account account = repository.findByPhone(phone).orElseThrow();
         return Mapper.map(account);
     }
 
     public AccountResponse searchByAccount(Long accountNumber){
-        Account account = repository.findByAccountNumber(accountNumber)
-                .orElseThrow(() -> new RuntimeException("Account not found"));
+        Account account = repository.findByAccountNumber(accountNumber).orElseThrow();
         return Mapper.map(account);
     }
 
