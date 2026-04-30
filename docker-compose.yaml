@@ -1,0 +1,37 @@
+services:
+  db:
+    image: postgres:18-alpine
+    container_name: astu_bank_db
+    environment:
+      POSTGRES_DB: astu_bank
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+    volumes:
+      - pgdata:/var/lib/postgresql
+    restart: always
+
+  core:
+    container_name: astu_bank_core
+    build:
+      context: .
+      dockerfile: core/Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      BOT_TOKEN: ${BOT_TOKEN}
+
+  bot:
+    container_name: astu_bank_bot
+    build:
+      context: .
+      dockerfile: bot/Dockerfile
+    depends_on:
+      - core
+    environment:
+      BOT_TOKEN: ${BOT_TOKEN}
+
+volumes:
+  pgdata:
