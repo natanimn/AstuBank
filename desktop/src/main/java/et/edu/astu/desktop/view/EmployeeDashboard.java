@@ -27,7 +27,7 @@ public class EmployeeDashboard extends JFrame {
     private TransactionPanel transactionPanel;
 
     public EmployeeDashboard() {
-        setTitle("AstuBank Workspace");
+        setTitle("ASTU Bank Workspace");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1100, 750);
         setLocationRelativeTo(null);
@@ -60,7 +60,7 @@ public class EmployeeDashboard extends JFrame {
         navPanel.setBackground(UIUtils.PRIMARY_COLOR);
         navPanel.setBorder(BorderFactory.createEmptyBorder(30, 20, 30, 20));
 
-        JLabel logoLabel = UIUtils.createLabel("ASTUBANK", UIUtils.SUBHEADER_FONT, Color.WHITE);
+        JLabel logoLabel = UIUtils.createLabel("ASTU BANK", UIUtils.SUBHEADER_FONT, Color.WHITE);
         logoLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         navPanel.add(logoLabel);
         navPanel.add(Box.createRigidArea(new Dimension(0, 15)));
