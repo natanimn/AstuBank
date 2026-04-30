@@ -5,7 +5,7 @@ import et.edu.astu.common.dto.DepositResponse;
 import et.edu.astu.common.dto.TransactionResponses;
 import et.edu.astu.common.dto.TransferRequest;
 import et.edu.astu.common.dto.TransferResponse;
-import et.edu.astu.common.interfaces.TransactionResponse;
+import et.edu.astu.common.dto.TransactionResponse;
 import et.edu.astu.core.mapper.Mapper;
 import et.edu.astu.core.generators.TransactionGenerator;
 import et.edu.astu.core.models.Account;
@@ -43,7 +43,6 @@ public class TransactionService {
         Employee employee = employeeRepository.findById(employeeId).orElseThrow();
         Account account = accountRepository.findByAccountNumber(request.accountNumber()).orElseThrow();
         String transactionId = generator.generateTransactionId(repository.count(), (int) request.amount());
-
         Deposit deposit = new Deposit();
         deposit.setTransactionId(transactionId);
         deposit.setPerformer(employee);
