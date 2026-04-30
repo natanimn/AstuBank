@@ -17,7 +17,7 @@ app:
     username: admin
     password: admin
   bot:
-    token: BOT_TOKEN
+    token: ${BOT_TOKEN}
 
 jwt:
   secret:
