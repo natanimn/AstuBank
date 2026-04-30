@@ -19,10 +19,10 @@ import et.edu.astu.core.repositories.EmployeeRepository;
 import et.edu.astu.core.repositories.TransactionRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 /**
  * TransactionService class.
@@ -91,7 +91,7 @@ public class TransactionService {
     public TransferResponse transfer(TransferRequest request){
         validateTransfer(request);
         Account sender = accountRepository.findByAccountNumber(request.sender()).orElseThrow();
-        Account receiver = accountRepository.findByAccountNumber(request.sender()).orElseThrow();
+        Account receiver = accountRepository.findByAccountNumber(request.receiver()).orElseThrow();
 
         if (request.amount() > sender.getBalance())
             throw new RuntimeException("Insufficient remaining funds");
@@ -110,16 +110,17 @@ public class TransactionService {
         sender.setBalance(sender.getBalance() - request.amount());
         receiver.setBalance(receiver.getBalance() + request.amount());
 
+        repository.save(transfer);
+
         botService.notifyTransfer(transfer);
 
         return Mapper.map(transfer);
     }
 
     public TransactionResponses findTransaction(Long accountNumber, Pageable pageable){
-        List<TransactionResponse> transactions = repository.findTransactions(accountNumber, pageable);
-        long count = repository.countByHolderAccountNumber(accountNumber);
+        Page<TransactionResponse> transactions = repository.findTransactions(accountNumber, pageable);
 
-        return new TransactionResponses(count, transactions);
+        return new TransactionResponses(transactions.getTotalElements(), transactions.stream().toList());
     }
 
     public Object findTransaction(String trxId){
