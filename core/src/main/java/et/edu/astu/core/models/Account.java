@@ -38,7 +38,7 @@ public class Account {
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     @Pattern(regexp = "(251[97])\\d{8}", message = "Invalid phone number format. Only 2519... or 2517... format is allowed")
     private String phone;
 
