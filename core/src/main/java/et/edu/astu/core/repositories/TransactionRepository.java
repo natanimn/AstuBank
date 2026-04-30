@@ -1,6 +1,6 @@
 package et.edu.astu.core.repositories;
 
-import et.edu.astu.common.interfaces.TransactionResponse;
+import et.edu.astu.common.dto.TransactionResponse;
 import et.edu.astu.core.models.transactions.Transaction;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
