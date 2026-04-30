@@ -8,7 +8,6 @@ import et.edu.astu.common.dto.OTPResponse;
 import et.edu.astu.common.dto.TransactionResponses;
 import et.edu.astu.common.dto.TransferRequest;
 import et.edu.astu.common.dto.TransferResponse;
-import et.edu.astu.common.interfaces.CustomerResponse;
 import et.edu.astu.core.services.AccountService;
 import et.edu.astu.core.services.OTPService;
 import et.edu.astu.core.services.TransactionService;
