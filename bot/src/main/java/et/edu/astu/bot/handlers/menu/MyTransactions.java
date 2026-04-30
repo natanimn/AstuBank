@@ -1,11 +1,10 @@
 package et.edu.astu.bot.handlers.menu;
 
+import com.google.gson.internal.LinkedTreeMap;
 import et.edu.astu.bot.filters.IsConnected;
 import et.edu.astu.bot.helpers.KeyboardHelper;
 import et.edu.astu.bot.http.HttpService;
-import et.edu.astu.common.dto.DepositResponse;
 import et.edu.astu.common.dto.TransactionResponses;
-import et.edu.astu.common.dto.TransferResponse;
 import io.github.natanimn.telebof.BotContext;
 import io.github.natanimn.telebof.annotations.CallbackHandler;
 import io.github.natanimn.telebof.annotations.MessageHandler;
@@ -39,19 +38,20 @@ public class MyTransactions {
             builder.append(("""
                             <i>#%d.</i> <code>%s</code>
                             <b>TYPE</b>: %s
-                            <b>AMOUNT</b>: %f
+                            <b>AMOUNT</b>: %.2f
                             <b>DATE</b>: %s
                             
                             """).formatted(
                             i,
                             trx.getTransactionId(),
                             trx.getType(),
-                            trx.getAmount(),
-                            trx.getCreatedAt().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+                            trx.getAmount().floatValue(),
+                            trx.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
                     )
             );
+            i++;
         }
-        InlineKeyboardMarkup markup = KeyboardHelper.transactions(responses.transactions(), 1, count);
+        InlineKeyboardMarkup markup = KeyboardHelper.transactions(responses.transactions(), page, count);
         if (builder.isEmpty())
             builder.append("<b>No committed transactions so far.</b>");
 
@@ -59,7 +59,7 @@ public class MyTransactions {
     }
     
     @MessageHandler(
-            texts = "My Transactions",
+            texts = "\uD83D\uDCB3 Transactions",
             chatType = ChatType.PRIVATE,
             filter = IsConnected.class
     )
@@ -105,61 +105,62 @@ public class MyTransactions {
         int page = Integer.parseInt(args[3]);
 
         Object object = service.getTransaction(userId, id);
-
         StringBuilder builder = new StringBuilder();
+
         if (object == null)
             builder.append("Not found");
 
-        else if (type.equals("DEPOSIT")) {
-            DepositResponse response = (DepositResponse) object; 
-            builder.append(
-                    """
-                    <b>DEPOSIT</b>
-                    
-                    <b>ID</b>: <code>%s</code>
-                    <b>AMOUNT</b>: %f
-                    <b>DEPOSITED AT</b>: %s
-                    """.formatted(
-                            response.transactionId(),
-                            response.amount(),
-                            response.createdAt().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
-                    )
-            );
-        } else if (type.equals("WITHDRAW")) {
-            DepositResponse response = (DepositResponse) object;
-            builder.append(
-                    """
-                    <b>WITHDRAW</b>
-                    
-                    <b>ID</b>: <code>%s</code>
-                    <b>AMOUNT</b>: %f
-                    <b>WITHDREW AT</b>: %s
-                    """.formatted(
-                            response.transactionId(),
-                            response.amount(),
-                            response.createdAt().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
-                    )
-            );
-        } else if (type.equals("TRANSFER")) {
-            TransferResponse response = (TransferResponse) object;
-            builder.append(
-                    """
-                    <b>TRANSFER</b>
-                    
-                    <b>ID</b>: <code>%s</code>
-                    <b>AMOUNT</b>: %f
-                    <b>RECEIVER</b>:
-                      - <b>NAME</b>: %s
-                      - <b>ACCOUNT</b>: %d
-                    <b>CREATED AT</b>: %s
-                    """.formatted(
-                            response.transactionId(),
-                            response.amount(),
-                            response.receiverFullName(),
-                            response.receiverAccountNumber(),
-                            response.createdAt().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
-                    )
-            );
+        LinkedTreeMap<String, Object> map = (LinkedTreeMap) object;
+
+        switch (type) {
+            case "DEPOSIT" -> {
+                builder.append(
+                        """
+                                <b>DEPOSIT</b>
+                                
+                                <b>ID</b>: <code>%s</code>
+                                <b>AMOUNT</b>: %.2f
+                                <b>DEPOSITED AT</b>: %s
+                                """.formatted(
+                                map.get("transactionId"),
+                                (Double) map.get("amount"),
+                                ((String)map.get("createdAt")).split("\\.")[0]                        )
+                );
+            }
+            case "WITHDRAW" -> {
+                builder.append(
+                        """
+                                <b>WITHDRAW</b>
+                                
+                                <b>ID</b>: <code>%s</code>
+                                <b>AMOUNT</b>: %.2f
+                                <b>WITHDREW AT</b>: %s
+                                """.formatted(
+                                map.get("transactionId"),
+                                (Double) map.get("amount"),
+                                ((String)map.get("createdAt")).split("\\.")[0]
+                        )
+                );
+            }
+            case "TRANSFER" -> {
+                builder.append(
+                        """
+                                <b>TRANSFER</b>
+                                
+                                <b>ID</b>: <code>%s</code>
+                                <b>AMOUNT</b>: %.2f
+                                <b>RECEIVER</b>:
+                                  - <b>NAME</b>: %s
+                                  - <b>ACCOUNT</b>: %.0f
+                                <b>CREATED AT</b>: %s
+                                """.formatted(
+                                map.get("transactionId"),
+                                (Double) map.get("amount"),
+                                map.get("receiverFullName"),
+                                (Double) map.get("receiverAccountNumber"),
+                                ((String)map.get("createdAt")).split("\\.")[0]                        )
+                );
+            }
         }
 
         ctx.editMessageText(
