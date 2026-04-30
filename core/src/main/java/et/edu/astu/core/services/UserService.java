@@ -15,10 +15,10 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class UserService {
-    private UserRepository repository;
-    private OTPService otpService;
-    private JwtService jwtService;
-    private AccountService accountService;
+    private final UserRepository repository;
+    private final OTPService otpService;
+    private final JwtService jwtService;
+    private final AccountService accountService;
 
     public User findById(Long userId){
         return repository.findById(userId).orElseThrow();
