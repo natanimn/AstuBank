@@ -38,7 +38,6 @@ public class TransactionController {
             long ac = Long.parseLong(view.getDWAccount());
             double amount = Double.parseDouble(view.getDWAmount());
             DepositResponse resp = httpService.deposit(new DepositRequest(ac, amount), Session.getToken());
-            System.out.println(resp);
             if (resp != null && resp.transactionId() != null)
                 UIUtils.showInfo("Deposit Successful! Transaction ID: " + resp.transactionId());
         } catch (Exception ex) {
