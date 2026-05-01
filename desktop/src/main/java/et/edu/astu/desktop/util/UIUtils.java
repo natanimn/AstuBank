@@ -12,7 +12,7 @@ import java.awt.Cursor;
 import java.awt.Font;
 
 public class UIUtils {
-    public static final Color PRIMARY_COLOR = new Color(50, 120, 50);
+    public static final Color PRIMARY_COLOR = new Color(200, 150, 50);
     public static final Color PRIMARY_HOVER = new Color(67, 56, 202);
     public static final Color ACCENT_COLOR = new Color(16, 185, 129);
     public static final Color BACKGROUND_COLOR = new Color(243, 244, 246);
@@ -45,7 +45,7 @@ public class UIUtils {
         JButton button = new JButton(text);
         button.setFont(REGULAR_FONT);
         button.setBackground(TEXT_SECONDARY);
-        button.setForeground(TEXT_PRIMARY);
+        button.setForeground(Color.WHITE);
         button.setFocusPainted(false);
         button.setBorder(
                 BorderFactory.createCompoundBorder(
