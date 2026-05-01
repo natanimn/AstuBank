@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 public class Client {
     private final OkHttpClient client;
     private final Gson gson;
+    private final String URL = "http://localhost:8080/api";
 
     public Client() {
         client = new OkHttpClient.Builder().build();
@@ -25,14 +26,12 @@ public class Client {
     }
 
     private Request.Builder prepareRequest(String endpoint, String token){
-        String URL = "http://localhost:8080/api";
         return new Request.Builder()
                 .addHeader("Authorization", "BANK " + token)
                 .url(URL + endpoint);
     }
 
     private Request.Builder prepareRequestWithNoHeader(String endpoint){
-        String URL = "http://localhost:8080/api";
         return new Request.Builder()
                 .url(URL + endpoint);
     }
@@ -67,6 +66,8 @@ public class Client {
 
     private <T> T makeRequest(Request request, Type type){
         try (Response response = client.newCall(request).execute()){
+            if (response.code() > 201)
+                throw new RuntimeException(response.message());
             ResponseBody body = response.body();
             String json = body.string();
             return gson.fromJson(json, type);
