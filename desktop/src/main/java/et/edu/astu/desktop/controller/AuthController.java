@@ -36,7 +36,6 @@ public class AuthController {
 
         try {
             AdminLoginResponse response = httpService.loginAsAdmin(new LoginRequest(username, password));
-            System.out.println(response);
             if (response != null && response.succeed()) {
                 Session.setSession(null, username, "ADMIN");
                 new AdminDashboard().setVisible(true);
