@@ -36,12 +36,6 @@ check_docker() {
 }
 
 start_compose() {
-  log "Starting services with Docker Compose..."
-
-  DISPLAY=$DISPLAY docker compose up --build "$@"
-}
-
-start_compose() {
   log "Starting backend services with Docker Compose..."
   docker compose up --build -d
   success "Backend services started."
