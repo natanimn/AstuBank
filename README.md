@@ -1,4 +1,4 @@
-# 🏦 ASTU Bank — Multi-Module Banking System
+# 🏦 ASTU Bank: Multi Module Banking System
 
 Welcome to the **ASTU Bank** project! This is a comprehensive banking management system designed with a modern multi-module architecture. 
 The project includes a backend API, a Telegram bot for customer interactions, and a professional desktop application for bank administrators and employees.
@@ -40,7 +40,7 @@ cd AstuBank
 ```
 
 **Option B: Download ZIP**
-1. Download the project [ZIP file from the repository.](https://github.com/natanim/AstuBank/releases/tag/v1.0.0)
+1. Download the project [ZIP file from the repository.](https://github.com/natanimn/AstuBank/archive/refs/heads/main.zip)
 2. Extract the contents to a folder of your choice.
 3. Open your terminal and navigate to the project root:
    ```bash
@@ -60,7 +60,7 @@ The project uses environment variables for sensitive information and module conf
 
 We provide a `start.sh` script to simplify the startup process across different operating systems.
 
-### 🪟 Windows (Recommended: Git Bash or CMD or WSL)
+### 🪟 Windows (Recommended: Git Bash or WSL)
 1. Open **Git Bash** or **WSL**.
 2. Set your bot token:
    ```bash
@@ -119,6 +119,25 @@ Employees do not have default credentials.
 3. The employee can then use these generated credentials to log in to the system.
 
 ---
+
+### 🔒 Security
+
+This project uses **Spring Security** to secure all API requests, with different authentication mechanisms depending on the type of principal:
+
+**Employees** are authenticated via **JWT (JSON Web Tokens)**. Upon login, a signed token is issued and must be included in the `Authorization` header of every request:
+```
+Authorization: BANK <jwt_token>
+```
+
+**Users** are authenticated by their unique identifier, passed directly in the `Authorization` header:
+```
+Authorization: USER <user_id>
+```
+
+Spring Security processes each request by inspecting the `Authorization` header prefix (`BANK` or `USER`) to determine the authentication strategy and enforce the appropriate access controls.
+
+> [!NOTE]
+> JWT secret and expiration settings can be configured in `core/src/main/resources/application.yml` under the `jwt` section.
 
 ---
 
