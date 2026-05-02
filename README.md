@@ -144,33 +144,4 @@ Employees do not have default credentials.
 
 ---
 
-## 🔌 API Overview
-
-The `core` module exposes a REST API at `http://localhost:8080/api`. Below are the key endpoints:
-
-### 🔐 Authentication
-| Method | Endpoint | Description |
-| :--- | :--- | :--- |
-| `POST` | `/auth/admin/login` | Login as a System Administrator |
-| `POST` | `/auth/employee/login` | Login as a Bank Employee |
-| `POST` | `/auth/user/login` | User login via OTP |
-
-### 👨‍💼 Management (Admin Only)
-| Method | Endpoint | Description |
-| :--- | :--- | :--- |
-| `POST` | `/admin/create/employee` | Create a new bank employee account |
-
-### 💰 Banking Operations (Employee Only)
-| Method | Endpoint | Description |
-| :--- | :--- | :--- |
-| `POST` | `/e/account/create` | Open a new bank account |
-| `GET` | `/e/account/{ac}` | View account details |
-| `POST` | `/e/account/deposit` | Deposit funds into an account |
-| `POST` | `/e/account/withdraw` | Withdraw funds from an account |
-| `POST` | `/e/account/transfer` | Transfer funds between accounts |
-| `GET` | `/e/account/{ac}/transactions` | View transaction history |
-| `POST` | `/e/account/{ac}/generate/otp` | Send verification OTP via Telegram |
-
----
-
 *Built with ❤️*
