@@ -124,14 +124,12 @@ Employees do not have default credentials.
 
 ## 📸 Screenshots
 
-*(Optional — Add your own screenshots here)*
-
 |        Employee Login Screen        |          Admin Login Screen          |
 |:-----------------------------------:|:------------------------------------:|
 | ![Login](images/login_employee.png) | ![Dashboard](images/login_admin.png) |
 
 
-### ADMIN DASHBOARD
+### DASHBOARDS
 |           Employee Dashboard            |             Admin Dashboard              |
 |:---------------------------------------:|:----------------------------------------:|
 | ![Login](images/employee_dashboard.png) | ![Dashboard](images/admin_dashboard.png) |
