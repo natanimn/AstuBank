@@ -27,6 +27,8 @@ services:
         condition: service_healthy
     environment:
       BOT_TOKEN: ${BOT_TOKEN}
+    volumes:
+      - maven-cache:/root/.m2
 
   bot:
     container_name: astu_bank_bot
@@ -37,6 +39,9 @@ services:
       - core
     environment:
       BOT_TOKEN: ${BOT_TOKEN}
+    volumes:
+      - maven-cache:/root/.m2
 
 volumes:
   pgdata:
+  maven-cache:
