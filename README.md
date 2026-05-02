@@ -35,7 +35,7 @@ You can get the source code in one of two ways:
 
 **Option A: Using Git (Recommended)**
 ```bash
-git clone https://github.com/natanim/AstuBank.git
+git clone https://github.com/natanimn/AstuBank.git
 cd AstuBank
 ```
 
@@ -163,4 +163,4 @@ Spring Security processes each request by inspecting the `Authorization` header 
 
 ---
 
-*Built with ❤️*
+*Made with ❤️*
