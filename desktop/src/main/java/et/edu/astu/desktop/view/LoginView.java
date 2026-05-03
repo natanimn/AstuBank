@@ -104,11 +104,27 @@ public class LoginView extends JFrame {
         return panel;
     }
 
-    public String getAdminUsername() { return adminUsernameField.getText(); }
-    public String getAdminPassword() { return new String(adminPasswordField.getPassword()); }
-    public JButton getAdminLoginButton() { return adminLoginButton; }
+    public String getAdminUsername() {
+        return adminUsernameField.getText();
+    }
 
-    public String getEmployeeUsername() { return employeeUsernameField.getText(); }
-    public String getEmployeePassword() { return new String(employeePasswordField.getPassword()); }
-    public JButton getEmployeeLoginButton() { return employeeLoginButton; }
+    public String getAdminPassword() {
+        return new String(adminPasswordField.getPassword());
+    }
+
+    public JButton getAdminLoginButton() {
+        return adminLoginButton;
+    }
+
+    public String getEmployeeUsername() {
+        return employeeUsernameField.getText();
+    }
+
+    public String getEmployeePassword() {
+        return new String(employeePasswordField.getPassword());
+    }
+
+    public JButton getEmployeeLoginButton() {
+        return employeeLoginButton;
+    }
 }
