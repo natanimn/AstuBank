@@ -15,11 +15,3 @@ COPY common/src ./common/src
 COPY desktop/src ./desktop/src
 
 RUN mvn -pl desktop -am clean package -DskipTests
-
-FROM eclipse-temurin:21-jammy
-
-WORKDIR /desktop
-
-COPY --from=build-desktop /build/desktop/target/desktop-*.jar app.jar
-
-CMD ["java", "-jar", "app.jar"]
