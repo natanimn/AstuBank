@@ -1,5 +1,6 @@
 package et.edu.astu.desktop.view;
 
+import et.edu.astu.desktop.controller.AuthController;
 import et.edu.astu.desktop.util.UIUtils;
 
 import javax.swing.BorderFactory;
@@ -56,7 +57,9 @@ public class AdminDashboard extends JFrame {
 
         JButton logoutButton = createNavButton("Logout", false);
         logoutButton.addActionListener(e -> {
-            new LoginView().setVisible(true);
+            LoginView view = new LoginView();
+            new AuthController(view);
+            view.setVisible(true);
             dispose();
         });
         sidebar.add(logoutButton, BorderLayout.SOUTH);
