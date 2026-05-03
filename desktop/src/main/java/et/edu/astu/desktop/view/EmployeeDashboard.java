@@ -1,5 +1,6 @@
 package et.edu.astu.desktop.view;
 
+import et.edu.astu.desktop.controller.AuthController;
 import et.edu.astu.desktop.util.Session;
 import et.edu.astu.desktop.util.UIUtils;
 
@@ -77,7 +78,6 @@ public class EmployeeDashboard extends JFrame {
         
         sidebar.add(navPanel, BorderLayout.NORTH);
 
-        // User Profile at bottom
         JPanel userPanel = new JPanel(new BorderLayout());
         userPanel.setBackground(UIUtils.PRIMARY_HOVER);
         userPanel.setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 20));
@@ -87,13 +87,15 @@ public class EmployeeDashboard extends JFrame {
         
         JButton logoutBtn = new JButton("Logout");
         logoutBtn.setFont(new Font("Inter", Font.PLAIN, 12));
-        logoutBtn.setForeground(new Color(239, 68, 68)); // Red text
+        logoutBtn.setForeground(new Color(239, 68, 68));
         logoutBtn.setContentAreaFilled(false);
         logoutBtn.setBorder(null);
         logoutBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
         logoutBtn.addActionListener(e -> {
             Session.clear();
-            new LoginView().setVisible(true);
+            LoginView view = new LoginView();
+            new AuthController(view);
+            view.setVisible(true);
             dispose();
         });
         userPanel.add(logoutBtn, BorderLayout.EAST);
