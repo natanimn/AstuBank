@@ -32,6 +32,10 @@ public class Transfer {
 
     @MessageHandler(
             texts = "↗ Transfer",
+            chatType = ChatType.PRIVATE,
+            filter = IsConnected.class
+    )
+    @MessageHandler(
             commands = "transfer",
             chatType = ChatType.PRIVATE,
             filter = IsConnected.class
